@@ -14,7 +14,8 @@ public class UngrabAction implements IAction {
     }
 
     public UngrabAction(RobotModel model, ArmComponent armComponent) {
-
+        this.model = model;
+        this.armComponent = armComponent;
     }
 
 

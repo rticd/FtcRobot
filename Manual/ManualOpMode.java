@@ -26,6 +26,7 @@ public class ManualOpMode extends LinearOpMode {
         while(true) {
             driveControl();
             armControl();
+            telemetry.addData("currentGrapplerPosition", armComponent.cleshnja.getPosition());
             telemetry.update();
         }
     }
@@ -40,6 +41,10 @@ public class ManualOpMode extends LinearOpMode {
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
+        cleshnja.getController().pwmEnable();
+        cleshnja.setPosition(1);
+        cleshnja.setDirection(Servo.Direction.FORWARD);
+        telemetry.addData("currentGrapplerPosition", cleshnja.getPosition());
         armComponent = new ArmComponent(armMotor, cleshnja);
         armController = new ManualArm(armComponent);
         armController.setTelemetry(telemetry);
@@ -47,8 +52,8 @@ public class ManualOpMode extends LinearOpMode {
     }
 
     void driveControl() {
-        double turn = gamepad1.right_stick_x;
-        double x = gamepad1.left_stick_x;
+        double turn = -gamepad1.right_stick_x;
+        double x = -gamepad1.left_stick_x;
         double y = gamepad1.left_stick_y;
         movementController.setTurn(turn);
         movementController.setX(x);
@@ -57,18 +62,18 @@ public class ManualOpMode extends LinearOpMode {
     }
 
     void armControl() {
-        if(gamepad1.circle)
+        if(gamepad2.circle)
             armController.setPosition(ArmPosition.Zero);
-        if(gamepad1.triangle)
+        if(gamepad2.triangle)
             armController.setPosition(ArmPosition.First);
-        if(gamepad1.square) {
+        if(gamepad2.square) {
             armController.setPosition(ArmPosition.Second);
         }
-        if(gamepad1.cross){
+        if(gamepad2.cross){
             armController.setPosition(ArmPosition.Third);
         }
 
-        boolean clesnhjaClosed = gamepad1.right_bumper;
+        boolean clesnhjaClosed = gamepad2.right_bumper;
         telemetry.addData("closed", clesnhjaClosed);
         if(clesnhjaClosed)
             armController.setCleshnjaOpen(false);

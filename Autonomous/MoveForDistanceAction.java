@@ -37,6 +37,7 @@ public class MoveForDistanceAction implements IAction {
             driveComponent.upperRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.lowerRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+
             //sets new position
             int ticksToPosition = (int)(driveComponent.TICKS_PER_CM * distance);
             driveComponent.lowerRight.setTargetPosition(ticksToPosition);

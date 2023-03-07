@@ -14,7 +14,8 @@ public class GrabAction implements IAction {
     }
 
     public GrabAction(RobotModel model, ArmComponent armComponent) {
-
+        this.model = model;
+        this.armComponent = armComponent;
     }
 
 

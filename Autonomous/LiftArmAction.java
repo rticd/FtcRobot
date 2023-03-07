@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 
@@ -14,7 +17,7 @@ public class LiftArmAction implements IAction
         return armPosition;
     }
 
-    boolean finished;
+    boolean finished = false;
     @Override
     public boolean isFinished() {
         return finished;
@@ -46,7 +49,7 @@ public class LiftArmAction implements IAction
                     break;
             }
             armComponent.armMotor.setTargetPosition(targetPosition);
-
+            armComponent.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
