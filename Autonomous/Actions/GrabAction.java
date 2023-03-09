@@ -1,24 +1,18 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 
-public class GrabAction implements IAction {
+public class GrabAction extends BaseAction {
     RobotModel model;
 
     ArmComponent armComponent;
-
-    boolean finished;
-    @Override
-    public boolean isFinished() {
-        return finished;
-    }
 
     public GrabAction(RobotModel model, ArmComponent armComponent) {
         this.model = model;
         this.armComponent = armComponent;
     }
-
-
     @Override
     public void start() {
         armComponent.cleshnja.setPosition(1);

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,9 +15,15 @@ import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 @TeleOp
 public class AutonomousOpMode extends OpMode {
     RobotController controller;
+    boolean firstIteration = true;
     @Override
     public void init() {
-        RobotModel model = new RobotModel(new Coordinates(0,0), 180, ArmPosition.Zero, true);
+        RobotModel model = new RobotModel(new Coordinates(33/2,38.3/2), 0, ArmPosition.Zero, true);
+        FieldModel fieldModel = new FieldModel(new Coordinates(33/2,38.3/2), //starting position
+                                               new Coordinates(0, 1.5*61), //colored cone vector
+                                               new Coordinates(-1*61, 1*61), //red parking position vector
+                                               new Coordinates(0, 1*61), //green parking position vector
+                                               new Coordinates(1*61, 1*61)); //blue parking position vector
 
         DcMotor upperLeft = hardwareMap.get(DcMotor.class, "lfw");
         DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
@@ -26,28 +33,23 @@ public class AutonomousOpMode extends OpMode {
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
-        ArmComponent armComponent = new ArmComponent(armMotor, cleshnja);
+        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "INSERT NAME LATER");
+        ArmComponent armComponent = new ArmComponent(armMotor, cleshnja, colorSensor);
 
-        controller = new RobotController(model, driveComponent, armComponent);
+        controller = new RobotController(model, fieldModel, driveComponent, armComponent);
         controller.setTelemetry(telemetry);
     }
 
     @Override
     public void loop() {
-        if(gamepad1.circle)
-            controller.testArmControl(ArmPosition.Zero);
-        if(gamepad1.square)
-            controller.testArmControl(ArmPosition.First);
-        if(gamepad1.cross)
-            controller.testArmControl(ArmPosition.Second);
-        if(gamepad1.triangle)
-            controller.testArmControl(ArmPosition.Third);
-        if(gamepad1.right_bumper)
-            controller.testGraplerClose();
-        if(gamepad1.left_bumper)
-            controller.testGraplerOpen();
-        if(gamepad1.right_trigger == 1)
-            controller.testMovement();
+        if(gamepad1.cross == true) {
+            controller.testMoveToPositionAction(new Coordinates(50, 50));
+        }
+        if(firstIteration) {
+            controller.start();
+        } else {
+            controller.update();
+        }
         controller.update();
     }
 }

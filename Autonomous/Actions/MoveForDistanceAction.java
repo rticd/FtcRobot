@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
-public class MoveForDistanceAction implements IAction {
-
+public class MoveForDistanceAction extends BaseAction {
     RobotModel model;
 
     DriveComponent driveComponent;
@@ -14,12 +15,6 @@ public class MoveForDistanceAction implements IAction {
     double distance;
     public double getDistance() {
         return distance;
-    }
-
-    boolean finished;
-    @Override
-    public boolean isFinished() {
-        return finished;
     }
 
     public MoveForDistanceAction(RobotModel model, DriveComponent driveComponent, double distance) {
@@ -37,13 +32,24 @@ public class MoveForDistanceAction implements IAction {
             driveComponent.upperRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.lowerRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+            driveComponent.lowerRight.setPower(1);
+            driveComponent.upperRight.setPower(1);
+            driveComponent.lowerLeft.setPower(1);
+            driveComponent.upperLeft.setPower(1);
 
             //sets new position
             int ticksToPosition = (int)(driveComponent.TICKS_PER_CM * distance);
-            driveComponent.lowerRight.setTargetPosition(ticksToPosition);
-            driveComponent.upperRight.setTargetPosition(ticksToPosition);
-            driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
-            driveComponent.upperLeft.setTargetPosition(ticksToPosition);
+
+            driveComponent.lowerRight.setTargetPosition(-ticksToPosition);
+            driveComponent.upperRight.setTargetPosition(-ticksToPosition);
+            driveComponent.lowerLeft.setTargetPosition(-ticksToPosition);
+            driveComponent.upperLeft.setTargetPosition(-ticksToPosition);
+
+            driveComponent.upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            driveComponent.lowerLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            driveComponent.upperRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            driveComponent.lowerRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         }
     }
 
@@ -55,8 +61,8 @@ public class MoveForDistanceAction implements IAction {
             float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
 
             //updating model
-            double x = cmTraveled * Math.cos(model.angle);
-            double y = cmTraveled * Math.sin(model.angle);
+            double x = cmTraveled * Math.cos(model.absAngle);
+            double y = cmTraveled * Math.sin(model.absAngle);
             Coordinates vector = new Coordinates(x, y);
             model.coordinates = Coordinates.add(model.coordinates, vector);
 

@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
-public class NoAction implements IAction {
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+
+public class NoAction extends BaseAction {
     @Override
     public void start() {
 
@@ -10,7 +12,6 @@ public class NoAction implements IAction {
     public void update() {
 
     }
-
     @Override
     public boolean isFinished() {
         return true;

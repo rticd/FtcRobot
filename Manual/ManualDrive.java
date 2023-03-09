@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
-import org.firstinspires.ftc.teamcode.Autonomous.IAction;
 
 //Not going to update model, since it's only really needed for autonomous.
 public class ManualDrive {

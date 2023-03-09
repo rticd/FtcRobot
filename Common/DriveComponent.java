@@ -6,8 +6,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 
 public class DriveComponent {
-    public final int TICKS_PER_CM = 0;
-    public final int DEGREES_PER_CM_OF_ROTATION = 0;
+    //Circumference of a mecanum wheel is difficult to calculate
+    public final int TICKS_PER_CM = (int)(288/(8 * Math.PI));
+    public final double DEGREES_PER_CM_OF_ROTATION = 1.6;
     public DcMotor upperLeft;
     public DcMotor upperRight;
     public DcMotor lowerLeft;

@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 
-public class LiftArmAction implements IAction
+public class LiftArmAction extends BaseAction
 {
     RobotModel model;
 
@@ -16,15 +17,7 @@ public class LiftArmAction implements IAction
     public ArmPosition getArmPosition() {
         return armPosition;
     }
-
-    boolean finished = false;
-    @Override
-    public boolean isFinished() {
-        return finished;
-    }
-
     int targetPosition;
-
     public LiftArmAction(RobotModel model, ArmComponent armComponent, ArmPosition armPosition) {
         this.model = model;
         this.armComponent = armComponent;
@@ -60,6 +53,4 @@ public class LiftArmAction implements IAction
             finished = true;
         }
     }
-
-
 }
