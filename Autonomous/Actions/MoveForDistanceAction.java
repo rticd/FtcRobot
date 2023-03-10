@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
@@ -56,7 +57,8 @@ public class MoveForDistanceAction extends BaseAction {
     @Override
     public void update() {
         if(!finished) {
-            int targetTicks = (int)(driveComponent.TICKS_PER_CM * distance);
+            //Don't mind the minus. It's just how the motors are placed
+            int targetTicks = -(int)(driveComponent.TICKS_PER_CM * distance);
             int currentTicks = driveComponent.upperLeft.getCurrentPosition();
             float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
 
@@ -65,14 +67,10 @@ public class MoveForDistanceAction extends BaseAction {
             double y = cmTraveled * Math.sin(model.absAngle);
             Coordinates vector = new Coordinates(x, y);
             model.coordinates = Coordinates.add(model.coordinates, vector);
-
             //checking if finished
             if(targetTicks == currentTicks) {
                 finished = true;
             }
         }
-
     }
-
-
 }

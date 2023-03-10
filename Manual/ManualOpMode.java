@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -41,11 +44,12 @@ public class ManualOpMode extends LinearOpMode {
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
+        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "clr");
         cleshnja.getController().pwmEnable();
         cleshnja.setPosition(1);
         cleshnja.setDirection(Servo.Direction.FORWARD);
         telemetry.addData("currentGrapplerPosition", cleshnja.getPosition());
-        armComponent = new ArmComponent(armMotor, cleshnja);
+        armComponent = new ArmComponent(armMotor, cleshnja, colorSensor);
         armController = new ManualArm(armComponent);
         armController.setTelemetry(telemetry);
 

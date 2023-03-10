@@ -7,8 +7,9 @@ import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
 //Не законченно
-public class RotateAction implements IAction
+public class RotateAction extends BaseAction
 {
+    int previousTicks;
     RobotModel model;
 
     DriveComponent driveComponent;
@@ -18,11 +19,6 @@ public class RotateAction implements IAction
         return deltaAngle;
     }
 
-    boolean finished;
-    @Override
-    public boolean isFinished() {
-        return finished;
-    }
 
     public RotateAction(RobotModel model, DriveComponent driveComponent, double deltaAngle) {
         this.model = model;
@@ -58,17 +54,25 @@ public class RotateAction implements IAction
 
     @Override
     public void update() {
+        //telemetry.addData("rotation finished", finished);
         if(finished) return;
         double cmToRotate = deltaAngle / driveComponent.DEGREES_PER_CM_OF_ROTATION;
+        //telemetry.addData("cmToRotate ", cmToRotate);
         int ticksToRotate = (int)(driveComponent.TICKS_PER_CM * cmToRotate);
         int currentTicks = driveComponent.upperLeft.getCurrentPosition();
         double currentCm = currentTicks / driveComponent.TICKS_PER_CM;
+        //telemetry.addData("currentCm ", currentCm);
         double currentDeltaAngle = currentCm * driveComponent.DEGREES_PER_CM_OF_ROTATION;
+        //telemetry.addData("currentDelta angle", currentDeltaAngle);
+        //telemetry.addData("currentAbs angle", model.absAngle);
         model.absAngle += currentDeltaAngle;
         //May need to check if it's actually finished moving
-        if(currentTicks == ticksToRotate) {
+        //telemetry.addData("currentTicks ", currentTicks);
+        //telemetry.addData("targetTicks ", ticksToRotate);
+        if(currentTicks == ticksToRotate && currentTicks == previousTicks) {
             finished = true;
         }
+        previousTicks = currentTicks;
     }
 
 

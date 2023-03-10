@@ -7,18 +7,22 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.FigureOutParkingPositionAction;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
+import org.firstinspires.ftc.teamcode.Common.RGBColors;
 
 @TeleOp
 public class AutonomousOpMode extends OpMode {
+    RGBColors color;
     RobotController controller;
     boolean firstIteration = true;
     @Override
     public void init() {
-        RobotModel model = new RobotModel(new Coordinates(33/2,38.3/2), 0, ArmPosition.Zero, true);
+        RobotModel model = new RobotModel(new Coordinates(33/2,38.3/2), 90, ArmPosition.Zero, true);
         FieldModel fieldModel = new FieldModel(new Coordinates(33/2,38.3/2), //starting position
                                                new Coordinates(0, 1.5*61), //colored cone vector
                                                new Coordinates(-1*61, 1*61), //red parking position vector
@@ -33,7 +37,7 @@ public class AutonomousOpMode extends OpMode {
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
-        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "INSERT NAME LATER");
+        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "clr");
         ArmComponent armComponent = new ArmComponent(armMotor, cleshnja, colorSensor);
 
         controller = new RobotController(model, fieldModel, driveComponent, armComponent);
@@ -42,14 +46,15 @@ public class AutonomousOpMode extends OpMode {
 
     @Override
     public void loop() {
-        if(gamepad1.cross == true) {
-            controller.testMoveToPositionAction(new Coordinates(50, 50));
-        }
+        //if(gamepad1.cross == true) {
+            //controller.testMoveToPositionAction(new Coordinates(-50, -50));
+        //}
         if(firstIteration) {
-            controller.start();
+              controller.start();
+              firstIteration = false;
         } else {
             controller.update();
         }
-        controller.update();
+        telemetry.update();
     }
 }

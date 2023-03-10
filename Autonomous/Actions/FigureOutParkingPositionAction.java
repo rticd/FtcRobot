@@ -7,8 +7,10 @@ import org.firstinspires.ftc.teamcode.Autonomous.FieldModel;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
+import org.firstinspires.ftc.teamcode.Common.RGBColors;
 
 public class FigureOutParkingPositionAction extends BaseAction {
+    public RGBColors resultingColor;
     FieldModel fieldModel;
 
     RobotModel model;
@@ -24,18 +26,27 @@ public class FigureOutParkingPositionAction extends BaseAction {
         if(finished) return;
         //If red component is the highest
         if(armComponent.colorSensor.red() > armComponent.colorSensor.blue() &&
-                armComponent.colorSensor.red() > armComponent.colorSensor.green())
+                armComponent.colorSensor.red() > armComponent.colorSensor.green()){
+            resultingColor = RGBColors.Red;
             model.parkingCoordinates = Coordinates.add(model.coordinates, fieldModel.getRedVectorFromColoredCone());
+        }
+
 
         //if green component if the highest
         else if(armComponent.colorSensor.green() > armComponent.colorSensor.red() &&
-                armComponent.colorSensor.green() > armComponent.colorSensor.blue())
+                armComponent.colorSensor.green() > armComponent.colorSensor.blue()) {
+            resultingColor = RGBColors.Green;
             model.parkingCoordinates = fieldModel.getGreenVectorFromColoredCone();
+        }
+
 
         //if blue component is the highest
         else if(armComponent.colorSensor.blue() > armComponent.colorSensor.red() &&
-                armComponent.colorSensor.blue() > armComponent.colorSensor.green())
+                armComponent.colorSensor.blue() > armComponent.colorSensor.green()) {
+            resultingColor = RGBColors.Blue;
             model.parkingCoordinates = fieldModel.getBlueVectorFromColoredCone();
+        }
+
         finished = true;
     }
 

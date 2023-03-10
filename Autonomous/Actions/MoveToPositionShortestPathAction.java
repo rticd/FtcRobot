@@ -61,7 +61,7 @@ public class MoveToPositionShortestPathAction extends BaseAction {
                 model.coordinates.getY() - targetCoordinates.getY()
         );
         double absAngle = Math.atan2(targetCoordinates.getY(), targetCoordinates.getX()) * 180 / Math.PI;
-        double deltaAngle = model.absAngle - absAngle;
+        double deltaAngle = absAngle - model.absAngle ;
         rotateAction = new RotateAction(model, driveComponent, deltaAngle);
         rotateAction.start();
     }
