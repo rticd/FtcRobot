@@ -27,12 +27,13 @@ public class Coordinates {
 
     public static Coordinates findClosestCoordinates(Coordinates targetCoordinates, List<Coordinates> coordinates) {
         Coordinates closestCoordinates = coordinates.get(0);
+        coordinates.remove(0);
         for (Coordinates coordinate: coordinates) {
             double distance = Math.abs(targetCoordinates.getX()-coordinate.getX()) +
                               Math.abs(targetCoordinates.getY()-coordinate.getY());
             double previousDistance = Math.abs(targetCoordinates.getX()-closestCoordinates.getX()) +
                                       Math.abs(targetCoordinates.getY()-closestCoordinates.getY());
-            if(distance > previousDistance)
+            if(distance < previousDistance)
                 closestCoordinates = coordinate;
         }
         return closestCoordinates;

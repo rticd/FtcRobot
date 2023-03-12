@@ -6,8 +6,9 @@ import org.firstinspires.ftc.teamcode.Common.RGBColors;
 
 public class RobotModel {
     //absolute coordinates on the field
+    public final double MOVEMENT_OFFSET_FOR_ROBOT = 43/2;
     public Coordinates coordinates;
-
+    public RGBColors color;
     public double robotHeight;
     public double robotWidth;
 

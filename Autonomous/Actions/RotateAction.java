@@ -9,10 +9,16 @@ import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 //Не законченно
 public class RotateAction extends BaseAction
 {
+    double initialAbsAngle;
     int previousTicks;
     RobotModel model;
 
     DriveComponent driveComponent;
+
+    double absAngle;
+    public double getAbsAngle() {
+        return absAngle;
+    }
 
     double deltaAngle;
     public double getDeltaAngle() {
@@ -20,10 +26,10 @@ public class RotateAction extends BaseAction
     }
 
 
-    public RotateAction(RobotModel model, DriveComponent driveComponent, double deltaAngle) {
+    public RotateAction(RobotModel model, DriveComponent driveComponent, double absAngle) {
         this.model = model;
         this.driveComponent = driveComponent;
-        this.deltaAngle = deltaAngle;
+        this.absAngle = absAngle;
     }
 
     @Override
@@ -39,6 +45,8 @@ public class RotateAction extends BaseAction
         driveComponent.lowerLeft.setPower(1);
         driveComponent.upperLeft.setPower(1);
 
+
+        deltaAngle = absAngle - model.absAngle;
         double cmToRotate = deltaAngle / driveComponent.DEGREES_PER_CM_OF_ROTATION;
         int ticksToRotate = (int)(driveComponent.TICKS_PER_CM * cmToRotate);
         driveComponent.upperLeft.setTargetPosition(ticksToRotate);
@@ -50,25 +58,20 @@ public class RotateAction extends BaseAction
         driveComponent.lowerLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         driveComponent.upperRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         driveComponent.lowerRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        initialAbsAngle = model.absAngle;
     }
 
     @Override
     public void update() {
-        //telemetry.addData("rotation finished", finished);
         if(finished) return;
         double cmToRotate = deltaAngle / driveComponent.DEGREES_PER_CM_OF_ROTATION;
-        //telemetry.addData("cmToRotate ", cmToRotate);
         int ticksToRotate = (int)(driveComponent.TICKS_PER_CM * cmToRotate);
         int currentTicks = driveComponent.upperLeft.getCurrentPosition();
         double currentCm = currentTicks / driveComponent.TICKS_PER_CM;
-        //telemetry.addData("currentCm ", currentCm);
         double currentDeltaAngle = currentCm * driveComponent.DEGREES_PER_CM_OF_ROTATION;
-        //telemetry.addData("currentDelta angle", currentDeltaAngle);
-        //telemetry.addData("currentAbs angle", model.absAngle);
-        model.absAngle += currentDeltaAngle;
-        //May need to check if it's actually finished moving
-        //telemetry.addData("currentTicks ", currentTicks);
-        //telemetry.addData("targetTicks ", ticksToRotate);
+        model.absAngle = initialAbsAngle + currentDeltaAngle;
+
         if(currentTicks == ticksToRotate && currentTicks == previousTicks) {
             finished = true;
         }

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
@@ -20,7 +22,6 @@ public class GrabAction extends BaseAction {
 
     @Override
     public void update() {
-        //Осторожно тут с getPosition. Нужно проверить телеметрией.
         if(armComponent.cleshnja.getPosition() == 1) {
             model.grabberOpen = true;
             finished = true;

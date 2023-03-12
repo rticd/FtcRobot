@@ -9,11 +9,13 @@ import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
 public class MoveForDistanceAction extends BaseAction {
+    Coordinates initialCoordinates;
     RobotModel model;
 
     DriveComponent driveComponent;
 
     double distance;
+    double prevTicks;
     public double getDistance() {
         return distance;
     }
@@ -39,38 +41,41 @@ public class MoveForDistanceAction extends BaseAction {
             driveComponent.upperLeft.setPower(1);
 
             //sets new position
-            int ticksToPosition = (int)(driveComponent.TICKS_PER_CM * distance);
+            int ticksToPosition = -(int)(driveComponent.TICKS_PER_CM * distance);
 
-            driveComponent.lowerRight.setTargetPosition(-ticksToPosition);
-            driveComponent.upperRight.setTargetPosition(-ticksToPosition);
-            driveComponent.lowerLeft.setTargetPosition(-ticksToPosition);
-            driveComponent.upperLeft.setTargetPosition(-ticksToPosition);
+            driveComponent.lowerRight.setTargetPosition(ticksToPosition);
+            driveComponent.upperRight.setTargetPosition(ticksToPosition);
+            driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
+            driveComponent.upperLeft.setTargetPosition(ticksToPosition);
 
             driveComponent.upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             driveComponent.lowerLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             driveComponent.upperRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             driveComponent.lowerRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+            initialCoordinates = new Coordinates(model.coordinates.getX(), model.coordinates.getY());
         }
     }
 
     @Override
     public void update() {
         if(!finished) {
-            //Don't mind the minus. It's just how the motors are placed
-            int targetTicks = -(int)(driveComponent.TICKS_PER_CM * distance);
-            int currentTicks = driveComponent.upperLeft.getCurrentPosition();
-            float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
 
+            int targetTicks = (int)(driveComponent.TICKS_PER_CM * distance);
+            int currentTicks = -driveComponent.upperLeft.getCurrentPosition();
+
+            float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
             //updating model
-            double x = cmTraveled * Math.cos(model.absAngle);
-            double y = cmTraveled * Math.sin(model.absAngle);
+            double absAngleInRads = model.absAngle*Math.PI/180;
+            double x = cmTraveled * Math.cos(absAngleInRads);
+            double y = cmTraveled * Math.sin(absAngleInRads);
             Coordinates vector = new Coordinates(x, y);
-            model.coordinates = Coordinates.add(model.coordinates, vector);
+            model.coordinates = Coordinates.add(initialCoordinates, vector);
             //checking if finished
-            if(targetTicks == currentTicks) {
+            if(targetTicks == currentTicks && currentTicks == prevTicks) {
                 finished = true;
             }
+            prevTicks = currentTicks;
         }
     }
 }

@@ -6,7 +6,6 @@ import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
 public class MoveToPositionLongestPathAction extends BaseAction {
-    public Telemetry telemetry;
     double delta;
     double abs;
     RobotModel model;
@@ -18,8 +17,7 @@ public class MoveToPositionLongestPathAction extends BaseAction {
         return targetCoordinates;
     }
 
-    ActionQueue actionQueueForX;
-    ActionQueue actionQueueForY;
+    ActionQueue actionQueue;
     boolean startedY = false;
 
     public MoveToPositionLongestPathAction(RobotModel model, DriveComponent driveComponent,
@@ -27,8 +25,7 @@ public class MoveToPositionLongestPathAction extends BaseAction {
         this.model = model;
         this.driveComponent = driveComponent;
         this.targetCoordinates = targetCoordinates;
-        actionQueueForX = new ActionQueue();
-        actionQueueForY = new ActionQueue();
+
     }
 
     @Override
@@ -36,30 +33,15 @@ public class MoveToPositionLongestPathAction extends BaseAction {
         if(finished) return;
         xAxisPhase();
     }
-
-    //Sorry for such a messy solution. In don't know how to do it without coroutines.
     @Override
     public void update() {
         if(finished) return;
-        telemetry.addData("model abs angle:", model.absAngle);
-        if(actionQueueForY.currentAction != null) {
-            telemetry.addData("y action:", actionQueueForY.currentAction);
-            telemetry.addData("y action finished:", actionQueueForY.currentAction.isFinished());
-            telemetry.addData("y delta angle:", delta);
-            telemetry.addData("y abs angle:", abs);
-            telemetry.addData(" abs - yabs angle:", model.absAngle - abs);
 
-        }
-
-        if(actionQueueForX.isFinished() && !startedY)
+        if(actionQueue.isFinished() && !startedY)
             yAxisPhase();
-        if(actionQueueForX.isFinished() && actionQueueForY.isFinished())
+        else if(actionQueue.isFinished() && startedY)
             finished = true;
-
-        if(!startedY)
-            actionQueueForX.update();
-        else
-            actionQueueForY.update();
+        actionQueue.update();
     }
 
     void xAxisPhase() {
@@ -70,24 +52,25 @@ public class MoveToPositionLongestPathAction extends BaseAction {
 
         double absAngle = 0;
         if(targetCoordinates.getX() > 0)
-            absAngle = 180;
-        if(targetCoordinates.getX() < 0)
             absAngle = 0;
+        if(targetCoordinates.getX() < 0)
+            absAngle = 180;
 
-        double deltaAngle = absAngle - model.absAngle;
-        BaseAction rotateAction = new RotateAction(model, driveComponent, deltaAngle);
+        actionQueue = new ActionQueue();
+        BaseAction rotateAction = new RotateAction(model, driveComponent, absAngle);
         rotateAction.setTelemetry(telemetry);
-        actionQueueForX.setNextAction(rotateAction);
+        actionQueue.setNextAction(rotateAction);
+
         BaseAction driveAction = new MoveForDistanceAction(model, driveComponent, vector.getX());
-        actionQueueForX.setNextAction(driveAction);
-        actionQueueForX.start();
+        actionQueue.setNextAction(driveAction);
+        driveAction.setTelemetry(telemetry);
+        actionQueue.start();
     }
 
     void yAxisPhase() {
-        startedY = true;
         Coordinates vector = new Coordinates(
                 0,
-                model.coordinates.getY() - targetCoordinates.getY()
+                targetCoordinates.getY() - model.coordinates.getY()
         );
         double absAngle = 0;
         if(targetCoordinates.getY() > 0)
@@ -95,15 +78,15 @@ public class MoveToPositionLongestPathAction extends BaseAction {
         if(targetCoordinates.getY() < 0)
             absAngle = 270;
 
-        double deltaAngle = absAngle - model.absAngle;
-        delta = deltaAngle;
-        abs = absAngle;
-        BaseAction rotateAction = new RotateAction(model, driveComponent, deltaAngle);
+        actionQueue = new ActionQueue();
+        BaseAction rotateAction = new RotateAction(model, driveComponent, absAngle);
         rotateAction.setTelemetry(telemetry);
-        actionQueueForY.setNextAction(rotateAction);
-        IAction driveAction = new MoveForDistanceAction(model, driveComponent, vector.getY());
-        actionQueueForY.setNextAction(driveAction);
-        actionQueueForY.start();
+        actionQueue.setNextAction(rotateAction);
 
+        IAction driveAction = new MoveForDistanceAction(model, driveComponent, vector.getY());
+        driveAction.setTelemetry(telemetry);
+        actionQueue.setNextAction(driveAction);
+        actionQueue.start();
+        startedY = true;
     }
 }

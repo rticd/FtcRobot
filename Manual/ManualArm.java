@@ -15,6 +15,7 @@ public class ManualArm {
     }
 
     ArmComponent armComponent;
+
     ArmPosition position = ArmPosition.Zero;
     public ArmPosition getPosition() {
         return position;
@@ -36,7 +37,6 @@ public class ManualArm {
     }
 
     public void update() {
-
         switch (position) {
             case Zero:
                 armComponent.armMotor.setTargetPosition((int) (armComponent.ARM_TICKS_PER_CM * armComponent.GRAB_POSITION_CM));

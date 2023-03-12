@@ -29,7 +29,6 @@ public class ManualOpMode extends LinearOpMode {
         while(true) {
             driveControl();
             armControl();
-            telemetry.addData("currentGrapplerPosition", armComponent.cleshnja.getPosition());
             telemetry.update();
         }
     }
@@ -48,13 +47,15 @@ public class ManualOpMode extends LinearOpMode {
         cleshnja.getController().pwmEnable();
         cleshnja.setPosition(1);
         cleshnja.setDirection(Servo.Direction.FORWARD);
-        telemetry.addData("currentGrapplerPosition", cleshnja.getPosition());
         armComponent = new ArmComponent(armMotor, cleshnja, colorSensor);
         armController = new ManualArm(armComponent);
         armController.setTelemetry(telemetry);
 
     }
 
+    void onStop() {
+        armComponent.cleshnja.setPosition(0);
+    }
     void driveControl() {
         double turn = -gamepad1.right_stick_x;
         double x = -gamepad1.left_stick_x;
@@ -77,13 +78,10 @@ public class ManualOpMode extends LinearOpMode {
             armController.setPosition(ArmPosition.Third);
         }
 
-        boolean clesnhjaClosed = gamepad2.right_bumper;
-        telemetry.addData("closed", clesnhjaClosed);
-        if(clesnhjaClosed)
+        if(gamepad2.right_bumper)
             armController.setCleshnjaOpen(false);
-        else
+        else if(gamepad2.left_bumper)
             armController.setCleshnjaOpen(true);
-
         armController.update();
     }
 }
