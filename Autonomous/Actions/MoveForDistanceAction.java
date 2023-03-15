@@ -56,7 +56,7 @@ public class MoveForDistanceAction extends BaseAction {
                 driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
                 driveComponent.upperLeft.setTargetPosition(ticksToPosition);
             } else if (this.dir == Direction.X){
-                ticksToPosition= -(int)(driveComponent.TICKS_PER_CM * this.displ);
+                ticksToPosition= (int)(driveComponent.TICKS_PER_CM * this.displ);
                 driveComponent.lowerRight.setTargetPosition(ticksToPosition);
                 driveComponent.upperRight.setTargetPosition(-ticksToPosition);
                 driveComponent.lowerLeft.setTargetPosition(ticksToPosition);

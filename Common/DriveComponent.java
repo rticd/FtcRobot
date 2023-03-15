@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 
 public class DriveComponent {
-    public final double WHEEL_DIAMETER = 8;
+    public final double WHEEL_DIAMETER = 7.5;
     public final int TICKS_PER_REVOLUTION = 288;
     public final int TICKS_PER_CM = (int)(TICKS_PER_REVOLUTION/(WHEEL_DIAMETER * Math.PI));
     public DcMotor upperLeft;
