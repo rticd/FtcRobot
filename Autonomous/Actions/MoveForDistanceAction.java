@@ -57,8 +57,8 @@ public class MoveForDistanceAction extends BaseAction {
                 driveComponent.upperLeft.setTargetPosition(ticksToPosition);
             } else if (this.dir == Direction.X){
                 ticksToPosition= (int)(driveComponent.TICKS_PER_CM * this.displ);
-                driveComponent.lowerRight.setTargetPosition(ticksToPosition);
-                driveComponent.upperRight.setTargetPosition(-ticksToPosition);
+                driveComponent.lowerRight.setTargetPosition(-ticksToPosition);
+                driveComponent.upperRight.setTargetPosition(ticksToPosition);
                 driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
                 driveComponent.upperLeft.setTargetPosition(-ticksToPosition);
             }
@@ -81,10 +81,6 @@ public class MoveForDistanceAction extends BaseAction {
 
             //updating model
             double absAngleInRads = model.absAngle*Math.PI/180;
-            /*
-            double x = cmTraveled * Math.cos(absAngleInRads);
-            double y = cmTraveled * Math.sin(absAngleInRads);
-            */
             Coordinates vector = new Coordinates(0,0);
             if (this.dir == Direction.Y){
                 vector = new Coordinates(-cmTraveled*Math.sin(model.absAngle), cmTraveled*Math.cos(model.absAngle));

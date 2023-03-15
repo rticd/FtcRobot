@@ -25,8 +25,8 @@ public class AutonomousOpMode {
         DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
         DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
         DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
-        GyroSensor gyroSensor = hardwareMap.get(GyroSensor.class, "gyro");
-        DriveComponent driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, gyroSensor);
+        //GyroSensor gyroSensor = hardwareMap.get(GyroSensor.class, "gyro");
+        DriveComponent driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, null);
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");

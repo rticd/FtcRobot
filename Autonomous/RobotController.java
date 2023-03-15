@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Actions.WaitAction;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
+import org.firstinspires.ftc.teamcode.Common.Direction;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
 public class RobotController {
@@ -35,7 +36,9 @@ public class RobotController {
 
     void constructActionSequence() {
         actionQueue = new ActionQueue();
-
+        IAction movementAction = new MoveForDistanceAction(model, driveComponent, 0.1, 50,
+                Direction.Y, telemetry);
+        actionQueue.setNextAction(movementAction);
     }
 
     public void start() {

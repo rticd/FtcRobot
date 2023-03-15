@@ -38,7 +38,7 @@ public class ManualOpMode extends LinearOpMode {
         DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
         DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
         DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
-        driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight);
+        driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, null);
         movementController = new ManualDrive(driveComponent);
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
@@ -47,7 +47,7 @@ public class ManualOpMode extends LinearOpMode {
         cleshnja.getController().pwmEnable();
         cleshnja.setPosition(1);
         cleshnja.setDirection(Servo.Direction.FORWARD);
-        armComponent = new ArmComponent(armMotor, cleshnja, colorSensor);
+        armComponent = new ArmComponent(armMotor, cleshnja);
         armController = new ManualArm(armComponent);
         armController.setTelemetry(telemetry);
 
