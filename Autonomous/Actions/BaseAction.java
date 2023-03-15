@@ -8,8 +8,7 @@ import java.util.List;
 public abstract class BaseAction implements IAction {
 
     Telemetry telemetry;
-    @Override
-    public void setTelemetry(Telemetry telemetry) {
+    public BaseAction(Telemetry telemetry) {
         this.telemetry = telemetry;
     }
 

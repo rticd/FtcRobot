@@ -2,13 +2,10 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
-import org.firstinspires.ftc.teamcode.Common.RGBColors;
 
 public class RobotModel {
     //absolute coordinates on the field
-    public final double MOVEMENT_OFFSET_FOR_ROBOT = 43/2;
     public Coordinates coordinates;
-    public RGBColors color;
     public double robotHeight;
     public double robotWidth;
 
@@ -18,8 +15,6 @@ public class RobotModel {
     public ArmPosition armPosition;
     //current grabber state
     public boolean grabberOpen;
-
-    public Coordinates parkingCoordinates;
 
     public RobotModel(Coordinates coordinates, double absAngle, ArmPosition armPosition, boolean grabberOpen) {
         this.robotHeight = 38.3;

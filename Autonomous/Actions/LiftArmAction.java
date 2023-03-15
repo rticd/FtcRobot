@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
@@ -10,15 +11,15 @@ import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 public class LiftArmAction extends BaseAction
 {
     RobotModel model;
-
     ArmComponent armComponent;
-
     ArmPosition armPosition;
     public ArmPosition getArmPosition() {
         return armPosition;
     }
     int targetPosition;
-    public LiftArmAction(RobotModel model, ArmComponent armComponent, ArmPosition armPosition) {
+    public LiftArmAction(RobotModel model, ArmComponent armComponent, ArmPosition armPosition,
+                         Telemetry telemetry) {
+        super(telemetry);
         this.model = model;
         this.armComponent = armComponent;
         this.armPosition = armPosition;
@@ -52,5 +53,10 @@ public class LiftArmAction extends BaseAction
             model.armPosition = this.armPosition;
             finished = true;
         }
+    }
+
+    @Override
+    public void exit() {
+
     }
 }

@@ -39,35 +39,35 @@ public class FieldModel {
         return startingPosition;
     }
 
-    Coordinates coloredConeVectorFromStatingPosition;
-    public Coordinates getColoredConeVectorFromStatingPosition() {
-        return coloredConeVectorFromStatingPosition;
-    }
-    Coordinates redVectorFromColoredCone;
-    public Coordinates getRedVectorFromColoredCone() {
-        return redVectorFromColoredCone;
+    Coordinates parkingCone;
+    public Coordinates getParkingCone() {
+        return parkingCone;
     }
 
-    Coordinates blueVectorFromColoredCone;
-    public Coordinates getBlueVectorFromColoredCone() {
-        return blueVectorFromColoredCone;
+    Coordinates firstParkingPosition;
+    public Coordinates getFirstParkingPosition() {
+        return firstParkingPosition;
     }
 
-    Coordinates greenVectorFromColoredCone;
-    public Coordinates getGreenVectorFromColoredCone() {
-        return greenVectorFromColoredCone;
+    Coordinates secondParkingPosition;
+    public Coordinates getSecondParkingPosition() {
+        return secondParkingPosition;
+    }
+    Coordinates thirdParkingPosition;
+    public Coordinates getThirdParkingPosition() {
+        return thirdParkingPosition;
     }
 
 
 
-    public FieldModel(Coordinates startingPosition, Coordinates coloredConeVectorFromStatingPosition,
-                      Coordinates redVectorFromColoredCone, Coordinates greenVectorFromColoredCone,
-                      Coordinates blueVectorFromColoredCone) {
+    public FieldModel(Coordinates startingPosition, Coordinates parkingCone,
+                      Coordinates firstParkingPosition, Coordinates secondParkingPosition,
+                      Coordinates thirdParkingPosition) {
         this.startingPosition = startingPosition;
-        this.coloredConeVectorFromStatingPosition = coloredConeVectorFromStatingPosition;
-        this.redVectorFromColoredCone = redVectorFromColoredCone;
-        this.greenVectorFromColoredCone = greenVectorFromColoredCone;
-        this.blueVectorFromColoredCone = blueVectorFromColoredCone;
+        this.parkingCone = parkingCone;
+        this.firstParkingPosition = firstParkingPosition;
+        this.secondParkingPosition = secondParkingPosition;
+        this.thirdParkingPosition = thirdParkingPosition;
 
         maxHeight = 6*cmPerTile;
         maxWidth = 6*cmPerTile;

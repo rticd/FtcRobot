@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 public class MoveForDistanceAction extends BaseAction {
     Coordinates initialCoordinates;
     RobotModel model;
-
     DriveComponent driveComponent;
 
     double distance;
@@ -20,7 +19,9 @@ public class MoveForDistanceAction extends BaseAction {
         return distance;
     }
 
-    public MoveForDistanceAction(RobotModel model, DriveComponent driveComponent, double distance) {
+    public MoveForDistanceAction(RobotModel model, DriveComponent driveComponent, double distance,
+                                 Telemetry telemetry) {
+        super(telemetry);
         this.model = model;
         this.driveComponent = driveComponent;
         this.distance = distance;
