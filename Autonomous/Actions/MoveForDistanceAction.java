@@ -87,9 +87,9 @@ public class MoveForDistanceAction extends BaseAction {
             */
             Coordinates vector = new Coordinates(0,0);
             if (this.dir == Direction.Y){
-                vector = new Coordinates(0, cmTraveled);
+                vector = new Coordinates(-cmTraveled*Math.sin(model.absAngle), cmTraveled*Math.cos(model.absAngle));
             } else {
-                vector = new Coordinates(cmTraveled, 0);
+                vector = new Coordinates(cmTraveled*Math.cos(model.absAngle), cmTraveled*Math.sin(model.absAngle));
             }
             model.coordinates = Coordinates.add(initialCoordinates, vector);
             //checking if finished
