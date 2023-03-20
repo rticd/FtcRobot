@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.ActionQueue;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.GrabAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.LiftArmAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.RotateAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveForDistanceAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.WaitAction;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveHorizontallyAction;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
+<<<<<<< Updated upstream
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
+=======
+>>>>>>> Stashed changes
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
 public class RobotController {
@@ -35,7 +35,12 @@ public class RobotController {
 
     void constructActionSequence() {
         actionQueue = new ActionQueue();
+<<<<<<< Updated upstream
 
+=======
+        IAction movementAction = new MoveHorizontallyAction(model, driveComponent, 0.3, 50, telemetry);
+        actionQueue.setNextAction(movementAction);
+>>>>>>> Stashed changes
     }
 
     public void start() {

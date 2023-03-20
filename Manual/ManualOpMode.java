@@ -43,7 +43,6 @@ public class ManualOpMode extends LinearOpMode {
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
-        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "clr");
         cleshnja.getController().pwmEnable();
         cleshnja.setPosition(1);
         cleshnja.setDirection(Servo.Direction.FORWARD);

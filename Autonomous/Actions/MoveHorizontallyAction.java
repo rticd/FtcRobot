@@ -3,36 +3,27 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
-import org.firstinspires.ftc.teamcode.Common.Direction;
 
-public class MoveForDistanceAction extends BaseAction {
+public class MoveHorizontallyAction extends BaseAction {
     double displ;
     RobotModel model;
     DriveComponent driveComponent;
 
     double prevTicks;
-    double robot_power = 1;
-
-    Direction dir;
+    double power = 1;
 
     Coordinates initialCoordinates;
-    //public double getDistance() {
-        //return distance;
-    //}
 
-    public MoveForDistanceAction(RobotModel model, DriveComponent driveComponent, double robot_power, double displ, Direction dir, Telemetry telemetry) {
+    public MoveHorizontallyAction(RobotModel model, DriveComponent driveComponent, double power, double displ, Telemetry telemetry) {
         super(telemetry);
         this.model = model;
         this.driveComponent = driveComponent;
-        this.robot_power = robot_power;
+        this.power = power;
         this.displ = displ;
-        this.dir = dir;
     }
-
     @Override
     public void start() {
 
@@ -43,12 +34,15 @@ public class MoveForDistanceAction extends BaseAction {
             driveComponent.upperRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.lowerRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            driveComponent.lowerRight.setPower(robot_power);
-            driveComponent.upperRight.setPower(robot_power);
-            driveComponent.lowerLeft.setPower(robot_power);
-            driveComponent.upperLeft.setPower(robot_power);
+            //Calculating the powers
+            driveComponent.lowerLeft.setPower(power);
+            driveComponent.upperRight.setPower(power);
+            driveComponent.upperLeft.setPower(power);
+            driveComponent.lowerRight.setPower(power);
+
 
             int ticksToPosition = 0;
+<<<<<<< Updated upstream:Autonomous/Actions/MoveForDistanceAction.java
             if (this.dir == Direction.Y){
                 ticksToPosition= -(int)(driveComponent.TICKS_PER_CM * this.displ);
                 driveComponent.lowerRight.setTargetPosition(ticksToPosition);
@@ -62,6 +56,14 @@ public class MoveForDistanceAction extends BaseAction {
                 driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
                 driveComponent.upperLeft.setTargetPosition(-ticksToPosition);
             }
+=======
+            ticksToPosition= -(int)(driveComponent.TICKS_PER_CM * this.displ);
+            driveComponent.lowerRight.setTargetPosition(ticksToPosition);
+            driveComponent.upperRight.setTargetPosition(-ticksToPosition);
+            driveComponent.lowerLeft.setTargetPosition(-ticksToPosition);
+            driveComponent.upperLeft.setTargetPosition(ticksToPosition);
+
+>>>>>>> Stashed changes:Autonomous/Actions/MoveHorizontallyAction.java
             //sets new position
             driveComponent.upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             driveComponent.lowerLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -78,19 +80,20 @@ public class MoveForDistanceAction extends BaseAction {
             int targetTicks = -(int)(driveComponent.TICKS_PER_CM * displ);
             int currentTicks = -driveComponent.upperLeft.getCurrentPosition();
             float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
-
+            telemetry.addData("Coordinates x", model.coordinates.getX());
+            telemetry.addData("Coordinates y", model.coordinates.getY());
+            telemetry.addData("abs angle", model.absAngle);
             //updating model
+<<<<<<< Updated upstream:Autonomous/Actions/MoveForDistanceAction.java
             double absAngleInRads = model.absAngle*Math.PI/180;
             /*
             double x = cmTraveled * Math.cos(absAngleInRads);
             double y = cmTraveled * Math.sin(absAngleInRads);
             */
+=======
+>>>>>>> Stashed changes:Autonomous/Actions/MoveHorizontallyAction.java
             Coordinates vector = new Coordinates(0,0);
-            if (this.dir == Direction.Y){
-                vector = new Coordinates(-cmTraveled*Math.sin(model.absAngle), cmTraveled*Math.cos(model.absAngle));
-            } else {
-                vector = new Coordinates(cmTraveled*Math.cos(model.absAngle), cmTraveled*Math.sin(model.absAngle));
-            }
+            vector = new Coordinates(cmTraveled*Math.cos(model.absAngle), cmTraveled*Math.sin(model.absAngle));
             model.coordinates = Coordinates.add(initialCoordinates, vector);
             //checking if finished
             if(targetTicks == currentTicks && currentTicks == prevTicks) {

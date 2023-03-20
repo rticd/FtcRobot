@@ -13,8 +13,8 @@ public class LeftInitialization extends OpMode {
     AutonomousOpMode opMode;
     @Override
     public void init() {
-        RobotModel model = new RobotModel(new Coordinates(1.5*60,38.3/2), 90, ArmPosition.Zero, true);
-        FieldModel fieldModel = new FieldModel(new Coordinates(1.5*60,38.3/2), //starting position
+        RobotModel model = new RobotModel(new Coordinates(0,0), Math.PI+Math.PI/2, ArmPosition.Zero, true);
+        FieldModel fieldModel = new FieldModel(new Coordinates(0,0), //starting position
                 new Coordinates(0, 1.5*55), //colored cone vector
                 new Coordinates(-1*60, 0), //red parking position vector
                 new Coordinates(0, 0), //green parking position vector
