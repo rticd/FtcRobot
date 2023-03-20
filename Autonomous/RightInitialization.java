@@ -11,7 +11,7 @@ public class RightInitialization extends OpMode {
     AutonomousOpMode opMode;
     @Override
     public void init() {
-        RobotModel model = new RobotModel(new Coordinates(4.5*61,38.3/2), 90, ArmPosition.Zero, true);
+        RobotModel model = new RobotModel(new Coordinates(4.5*61,38.3/2), Math.PI/2, ArmPosition.Zero, true);
         FieldModel fieldModel = new FieldModel(new Coordinates(4.5*61,38.3/2), //starting position
                 new Coordinates(0, 1.5*55), //colored cone vector
                 new Coordinates(-1*60, 0), //red parking position vector
