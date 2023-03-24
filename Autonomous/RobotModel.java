@@ -9,7 +9,7 @@ public class RobotModel {
     public double robotHeight;
     public double robotWidth;
 
-    //angle to the x axis (radians)
+    //angle to the x axis
     public double absAngle;
     //current arm position
     public ArmPosition armPosition;

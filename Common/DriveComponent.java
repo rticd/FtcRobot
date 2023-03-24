@@ -24,6 +24,6 @@ public class DriveComponent {
         this.lowerRight = lowerRight;
         this.gyroSensor = gyroSensor;
         upperLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        upperRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }

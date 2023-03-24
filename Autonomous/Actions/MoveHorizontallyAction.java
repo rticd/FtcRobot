@@ -3,65 +3,52 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
-import org.firstinspires.ftc.teamcode.Common.Direction;
 
-public class MoveForDistanceAction extends BaseAction {
+public class MoveHorizontallyAction extends BaseAction {
     double displ;
     RobotModel model;
     DriveComponent driveComponent;
 
     double prevTicks;
-    double robot_power = 1;
-
-    Direction dir;
+    double power = 1;
 
     Coordinates initialCoordinates;
-    //public double getDistance() {
-        //return distance;
-    //}
 
-    public MoveForDistanceAction(RobotModel model, DriveComponent driveComponent, double robot_power, double displ, Direction dir, Telemetry telemetry) {
+    public MoveHorizontallyAction(RobotModel model, DriveComponent driveComponent, double power, double displ, Telemetry telemetry) {
         super(telemetry);
         this.model = model;
         this.driveComponent = driveComponent;
-        this.robot_power = robot_power;
+        this.power = power;
         this.displ = displ;
-        this.dir = dir;
     }
 
     @Override
     public void start() {
 
-        if(!finished) {
+        if (!finished) {
             //sets initial position to 0
             driveComponent.upperLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.lowerLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.upperRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             driveComponent.lowerRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            driveComponent.lowerRight.setPower(robot_power);
-            driveComponent.upperRight.setPower(robot_power);
-            driveComponent.lowerLeft.setPower(robot_power);
-            driveComponent.upperLeft.setPower(robot_power);
+            //Calculating the powers
+            driveComponent.lowerLeft.setPower(power);
+            driveComponent.upperRight.setPower(power);
+            driveComponent.upperLeft.setPower(power);
+            driveComponent.lowerRight.setPower(power);
+
 
             int ticksToPosition = 0;
-            if (this.dir == Direction.Y){
-                ticksToPosition= -(int)(driveComponent.TICKS_PER_CM * this.displ);
-                driveComponent.lowerRight.setTargetPosition(ticksToPosition);
-                driveComponent.upperRight.setTargetPosition(ticksToPosition);
-                driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
-                driveComponent.upperLeft.setTargetPosition(ticksToPosition);
-            } else if (this.dir == Direction.X){
-                ticksToPosition= (int)(driveComponent.TICKS_PER_CM * this.displ);
-                driveComponent.lowerRight.setTargetPosition(-ticksToPosition);
-                driveComponent.upperRight.setTargetPosition(ticksToPosition);
-                driveComponent.lowerLeft.setTargetPosition(ticksToPosition);
-                driveComponent.upperLeft.setTargetPosition(-ticksToPosition);
-            }
+            ticksToPosition = -(int) (driveComponent.TICKS_PER_CM * this.displ);
+            driveComponent.lowerRight.setTargetPosition(ticksToPosition);
+            driveComponent.upperRight.setTargetPosition(-ticksToPosition);
+            driveComponent.lowerLeft.setTargetPosition(-ticksToPosition);
+            driveComponent.upperLeft.setTargetPosition(ticksToPosition);
+
             //sets new position
             driveComponent.upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             driveComponent.lowerLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -74,22 +61,20 @@ public class MoveForDistanceAction extends BaseAction {
 
     @Override
     public void update() {
-        if(!finished) {
-            int targetTicks = -(int)(driveComponent.TICKS_PER_CM * displ);
+        if (!finished) {
+            int targetTicks = -(int) (driveComponent.TICKS_PER_CM * displ);
             int currentTicks = -driveComponent.upperLeft.getCurrentPosition();
-            float cmTraveled = currentTicks / driveComponent.TICKS_PER_CM;
-
+            float cmTraveled = currentTicks * driveComponent.TICKS_PER_CM;
+            telemetry.addData("Coordinates x", model.coordinates.getX());
+            telemetry.addData("Coordinates y", model.coordinates.getY());
+            telemetry.addData("abs angle", model.absAngle);
             //updating model
-            double absAngleInRads = model.absAngle*Math.PI/180;
-            Coordinates vector = new Coordinates(0,0);
-            if (this.dir == Direction.Y){
-                vector = new Coordinates(-cmTraveled*Math.sin(model.absAngle), cmTraveled*Math.cos(model.absAngle));
-            } else {
-                vector = new Coordinates(cmTraveled*Math.cos(model.absAngle), cmTraveled*Math.sin(model.absAngle));
-            }
+            Coordinates vector = new Coordinates(0, 0);
+            //Horizontal vector is perpendicular to the vertical, so +90 degrees.
+            vector = new Coordinates(cmTraveled * Math.cos(model.absAngle + Math.PI/2), cmTraveled * Math.sin(model.absAngle + Math.PI/2));
             model.coordinates = Coordinates.add(initialCoordinates, vector);
             //checking if finished
-            if(targetTicks == currentTicks && currentTicks == prevTicks) {
+            if (targetTicks == currentTicks && currentTicks == prevTicks) {
                 finished = true;
             }
             prevTicks = currentTicks;
