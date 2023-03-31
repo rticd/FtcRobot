@@ -10,7 +10,8 @@ import java.util.Queue;
 public class ActionQueue {
     Queue<IAction> actionQueue;
     public void setNextAction(IAction action) {
-        actionQueue.add(action);
+        if(!finished)
+            actionQueue.add(action);
     }
 
     IAction currentAction;

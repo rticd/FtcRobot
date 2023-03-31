@@ -18,12 +18,13 @@ public class GrabAction extends BaseAction {
     }
     @Override
     public void start() {
-        armComponent.cleshnja.setPosition(1);
+        armComponent.rightClaw.setPosition(1);
+        armComponent.leftClaw.setPosition(1);
     }
 
     @Override
     public void update() {
-        if(armComponent.cleshnja.getPosition() == 1) {
+        if(armComponent.rightClaw.getPosition() == 1 && armComponent.leftClaw.getPosition() == 1) {
             model.grabberOpen = true;
             finished = true;
         }

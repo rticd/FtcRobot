@@ -10,6 +10,7 @@ public class DriveComponent {
     public final double WHEEL_DIAMETER = 7.5;
     public final int TICKS_PER_REVOLUTION = 288;
     public final int TICKS_PER_CM = (int)(TICKS_PER_REVOLUTION/(WHEEL_DIAMETER * Math.PI));
+    public final double DEGREES_PER_CM_OF_ROTATION = 1.65;
     public DcMotor upperLeft;
     public DcMotor upperRight;
     public DcMotor lowerLeft;
@@ -23,7 +24,8 @@ public class DriveComponent {
         this.upperRight = upperRight;
         this.lowerRight = lowerRight;
         this.gyroSensor = gyroSensor;
-        upperLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        lowerRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         upperRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }

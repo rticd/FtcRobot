@@ -4,6 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.ActionQueue;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveHorizontallyAction;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
@@ -14,22 +15,18 @@ public class RobotController {
     }
     RobotModel model;
     FieldModel fieldModel;
-    DriveComponent driveComponent;
-    ArmComponent armComponent;
     ActionQueue actionQueue;
 
-    public RobotController(RobotModel model, FieldModel fieldModel, DriveComponent driveComponent, ArmComponent armComponent, Telemetry telemetry) {
+    public RobotController(RobotModel model, FieldModel fieldModel, Telemetry telemetry) {
         this.model = model;
         this.fieldModel = fieldModel;
-        this.driveComponent = driveComponent;
-        this.armComponent = armComponent;
         this.telemetry = telemetry;
         constructActionSequence();
     }
 
     void constructActionSequence() {
         actionQueue = new ActionQueue();
-        IAction movementAction = new MoveHorizontallyAction(model, driveComponent, 0.1, 50, telemetry);
+        IAction movementAction = new MoveVerticallyAction(model, 0.1, 50, telemetry);
         actionQueue.setNextAction(movementAction);
     }
 

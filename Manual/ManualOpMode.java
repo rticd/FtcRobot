@@ -42,19 +42,24 @@ public class ManualOpMode extends LinearOpMode {
         movementController = new ManualDrive(driveComponent);
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
-        Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
+        Servo rightClaw = hardwareMap.get(Servo.class, "rightClaw");
+        Servo leftClaw = hardwareMap.get(Servo.class, "leftClaw");
         ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "clr");
-        cleshnja.getController().pwmEnable();
-        cleshnja.setPosition(1);
-        cleshnja.setDirection(Servo.Direction.FORWARD);
-        armComponent = new ArmComponent(armMotor, cleshnja);
+        rightClaw.getController().pwmEnable();
+        rightClaw.setPosition(1);
+        rightClaw.setDirection(Servo.Direction.FORWARD);
+        leftClaw.getController().pwmEnable();
+        leftClaw.setPosition(1);
+        leftClaw.setDirection(Servo.Direction.FORWARD);
+        armComponent = new ArmComponent(armMotor, rightClaw, leftClaw);
         armController = new ManualArm(armComponent);
         armController.setTelemetry(telemetry);
 
     }
 
     void onStop() {
-        armComponent.cleshnja.setPosition(0);
+        armComponent.rightClaw.setPosition(0);
+        armComponent.leftClaw.setPosition(0);
     }
     void driveControl() {
         double turn = -gamepad1.right_stick_x;

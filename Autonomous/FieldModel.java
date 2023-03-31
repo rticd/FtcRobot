@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FieldModel {
-    final double cmPerTile = 61;
 
+    public final double CM_PER_TILE = 61;
     double maxHeight;
     public double getMaxHeight() {
         return maxHeight;
@@ -19,6 +19,8 @@ public class FieldModel {
         return maxWidth;
     }
 
+
+    //Cone related
     List<Coordinates> lowerJunctions;
     public List<Coordinates> getLowerJunctions() {
         return lowerJunctions;
@@ -34,63 +36,58 @@ public class FieldModel {
         return higherJunctions;
     }
 
-    Coordinates startingPosition;
-    public Coordinates getStartingPosition() {
-        return startingPosition;
+    Coordinates initialPosition;
+    public Coordinates getInitialPosition() {
+        return initialPosition;
     }
 
+
+    //Parking related
     Coordinates parkingCone;
     public Coordinates getParkingCone() {
         return parkingCone;
     }
 
-    Coordinates firstParkingPosition;
+    final Coordinates firstPPVector = new Coordinates(-1, 1, CM_PER_TILE);
+    final Coordinates secondPPVector = new Coordinates(0, 1, CM_PER_TILE);
+    final Coordinates thirdPPVector = new Coordinates(1, 1, CM_PER_TILE);
     public Coordinates getFirstParkingPosition() {
-        return firstParkingPosition;
+        return Coordinates.add(initialPosition, firstPPVector);
     }
-
-    Coordinates secondParkingPosition;
     public Coordinates getSecondParkingPosition() {
-        return secondParkingPosition;
+        return Coordinates.add(initialPosition, secondPPVector);
     }
-    Coordinates thirdParkingPosition;
     public Coordinates getThirdParkingPosition() {
-        return thirdParkingPosition;
+        return Coordinates.add(initialPosition, thirdPPVector);
     }
 
 
 
-    public FieldModel(Coordinates startingPosition, Coordinates parkingCone,
-                      Coordinates firstParkingPosition, Coordinates secondParkingPosition,
-                      Coordinates thirdParkingPosition) {
-        this.startingPosition = startingPosition;
-        this.parkingCone = parkingCone;
-        this.firstParkingPosition = firstParkingPosition;
-        this.secondParkingPosition = secondParkingPosition;
-        this.thirdParkingPosition = thirdParkingPosition;
+    public FieldModel(Coordinates initialPosition) {
+        this.initialPosition = initialPosition;
 
-        maxHeight = 6*cmPerTile;
-        maxWidth = 6*cmPerTile;
+        maxHeight = 6*CM_PER_TILE;
+        maxWidth = 6*CM_PER_TILE;
         lowerJunctions = new ArrayList<>();
-        lowerJunctions.add(new Coordinates(1*cmPerTile, 2*cmPerTile));
-        lowerJunctions.add(new Coordinates(2*cmPerTile, 1*cmPerTile));
-        lowerJunctions.add(new Coordinates(1*cmPerTile, 4*cmPerTile));
-        lowerJunctions.add(new Coordinates(4*cmPerTile, 1*cmPerTile));
-        lowerJunctions.add(new Coordinates(2*cmPerTile, 5*cmPerTile));
-        lowerJunctions.add(new Coordinates(4*cmPerTile, 5*cmPerTile));
-        lowerJunctions.add(new Coordinates(5*cmPerTile, 4*cmPerTile));
-        lowerJunctions.add(new Coordinates(5*cmPerTile, 2*cmPerTile));
+        lowerJunctions.add(new Coordinates(1, 2, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(2, 1, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(1, 4, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(4, 1, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(2, 5, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(4, 5, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(5, 4, CM_PER_TILE));
+        lowerJunctions.add(new Coordinates(5, 2, CM_PER_TILE));
 
         mediumJunctions = new ArrayList<>();
-        mediumJunctions.add(new Coordinates(2*cmPerTile, 2*cmPerTile));
-        mediumJunctions.add(new Coordinates(2*cmPerTile, 4*cmPerTile));
-        mediumJunctions.add(new Coordinates(4*cmPerTile, 4*cmPerTile));
-        mediumJunctions.add(new Coordinates(4*cmPerTile, 2*cmPerTile));
+        mediumJunctions.add(new Coordinates(2, 2, CM_PER_TILE));
+        mediumJunctions.add(new Coordinates(2, 4, CM_PER_TILE));
+        mediumJunctions.add(new Coordinates(4, 4, CM_PER_TILE));
+        mediumJunctions.add(new Coordinates(4, 2, CM_PER_TILE));
 
         higherJunctions = new ArrayList<>();
-        higherJunctions.add(new Coordinates(3*cmPerTile, 2*cmPerTile));
-        higherJunctions.add(new Coordinates(2*cmPerTile, 3*cmPerTile));
-        higherJunctions.add(new Coordinates(3*cmPerTile, 4*cmPerTile));
-        higherJunctions.add(new Coordinates(4*cmPerTile, 3*cmPerTile));
+        higherJunctions.add(new Coordinates(3, 2, CM_PER_TILE));
+        higherJunctions.add(new Coordinates(2, 3, CM_PER_TILE));
+        higherJunctions.add(new Coordinates(3, 4, CM_PER_TILE));
+        higherJunctions.add(new Coordinates(4, 3, CM_PER_TILE));
     }
 }

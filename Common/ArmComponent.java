@@ -15,14 +15,18 @@ public class ArmComponent {
     public final double PALKA_3_CM = 89;
 
     public DcMotor armMotor;
-    public Servo cleshnja;
+    public Servo rightClaw;
+    public Servo leftClaw;
 
-    public ArmComponent(DcMotor armMotor, Servo cleshnja) {
-        this.cleshnja = cleshnja;
+    public ArmComponent(DcMotor armMotor, Servo rightClaw, Servo leftClaw) {
+        this.rightClaw = rightClaw;
         this.armMotor = armMotor;
-        cleshnja.getController().pwmEnable();
-        cleshnja.setDirection(Servo.Direction.FORWARD);
-        cleshnja.setPosition(0);
+        rightClaw.getController().pwmEnable();
+        rightClaw.setDirection(Servo.Direction.FORWARD);
+        rightClaw.setPosition(0);
+        leftClaw.getController().pwmEnable();
+        leftClaw.setDirection(Servo.Direction.FORWARD);
+        leftClaw.setPosition(0);
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setPower(1);
     }

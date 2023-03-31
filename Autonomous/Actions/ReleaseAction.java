@@ -18,11 +18,12 @@ public class ReleaseAction extends BaseAction {
 
     @Override
     public void start() {
-        armComponent.cleshnja.setPosition(0);
+        armComponent.rightClaw.setPosition(0);
+        armComponent.leftClaw.setPosition(0);
     }
     @Override
     public void update() {
-        if(armComponent.cleshnja.getPosition() == 0) {
+        if(armComponent.rightClaw.getPosition() == 0 && armComponent.leftClaw.getPosition() == 0) {
             model.grabberOpen = false;
             finished = true;
         }

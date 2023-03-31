@@ -1,38 +1,44 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.checkerframework.checker.units.qual.C;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
+import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 
-
-public class AutonomousOpMode {
+@Autonomous
+public class AutonomousOpMode extends OpMode {
     Telemetry telemetry;
     HardwareMap hardwareMap;
     RobotController controller;
+    RobotModel model;
+    FieldModel fieldModel;
 
     boolean firstIteration = true;
 
-    public void init(RobotModel model, FieldModel fieldModel, Telemetry telemetry, HardwareMap hardwareMap) {
-        this.telemetry = telemetry;
-        this.hardwareMap = hardwareMap;
-
+    @Override
+    public void init() {
         DcMotor upperLeft = hardwareMap.get(DcMotor.class, "lfw");
         DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
         DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
         DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
         //GyroSensor gyroSensor = hardwareMap.get(GyroSensor.class, "gyro");
-        DriveComponent driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, null);
-
+        DriveComponent driveComponent = new DriveComponent(upperLeft, lowerLeft, upperRight, lowerRight, null);
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
-        Servo cleshnja = hardwareMap.get(Servo.class, "grapler");
-        ArmComponent armComponent = new ArmComponent(armMotor, cleshnja);
+        Servo rClaw = hardwareMap.get(Servo.class, "rightClaw");
+        Servo lClaw = hardwareMap.get(Servo.class, "leftClaw");
+        ArmComponent armComponent = new ArmComponent(armMotor, rClaw, lClaw);
 
-        controller = new RobotController(model, fieldModel, driveComponent, armComponent, telemetry);
+        model = new RobotModel(driveComponent, armComponent, new Coordinates(0, 0), Math.PI/2, true);
+        fieldModel = new FieldModel(new Coordinates(0, 0));
+        controller = new RobotController(model, fieldModel, telemetry);
     }
 
 

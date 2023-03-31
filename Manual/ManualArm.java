@@ -53,9 +53,11 @@ public class ManualArm {
             }
         armComponent.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if (cleshnjaOpen) {
-            armComponent.cleshnja.setPosition(0);
+            armComponent.rightClaw.setPosition(0);
+            armComponent.leftClaw.setPosition(0);
         } else {
-            armComponent.cleshnja.setPosition(1);
+            armComponent.rightClaw.setPosition(1);
+            armComponent.leftClaw.setPosition(1);
         }
     }
 }
