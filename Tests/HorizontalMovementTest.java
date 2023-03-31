@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveHorizontallyAction;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 public class HorizontalMovementTest implements ITest {
     Telemetry telemetry;
@@ -19,7 +19,7 @@ public class HorizontalMovementTest implements ITest {
 
     @Override
     public void start() {
-        movementAction = new MoveHorizontallyAction(model, 0.1, 50, telemetry);
+        movementAction = new MoveHorizontallyAction(model, 1, 50, telemetry);
         movementAction.start();
     }
 

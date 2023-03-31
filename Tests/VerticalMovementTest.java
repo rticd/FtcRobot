@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.qualcomm.robotcore.robot.Robot;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 public class VerticalMovementTest implements ITest{
     Telemetry telemetry;

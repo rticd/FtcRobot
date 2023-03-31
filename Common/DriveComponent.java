@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
-
 public class DriveComponent {
     public final double WHEEL_DIAMETER = 7.5;
     public final int TICKS_PER_REVOLUTION = 288;
@@ -26,6 +24,5 @@ public class DriveComponent {
         this.gyroSensor = gyroSensor;
         lowerRight.setDirection(DcMotorSimple.Direction.REVERSE);
         lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        upperRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }

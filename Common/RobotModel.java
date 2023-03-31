@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.Common;
 
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
@@ -25,7 +25,7 @@ public class RobotModel {
     //angle to the x axis
     public double absAngle;
     //current arm position
-    public ArmPosition armPosition;
+    public double armPosition;
     //current grabber state
     public boolean grabberOpen;
 
@@ -36,7 +36,7 @@ public class RobotModel {
         this.robotWidth = 33;
         this.coordinates = coordinates;
         this.absAngle = absAngle;
-        this.armPosition = ArmPosition.Zero;
+        this.armPosition = 0;
         this.grabberOpen = grabberOpen;
     }
 }

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 
 public class MoveHorizontallyAction extends BaseAction {
@@ -41,10 +41,10 @@ public class MoveHorizontallyAction extends BaseAction {
 
             int ticksToPosition = 0;
             ticksToPosition = (int) (model.getDriveComponent().TICKS_PER_CM * this.displacement);
-            model.getDriveComponent().lowerRight.setTargetPosition(-ticksToPosition);
+            model.getDriveComponent().lowerRight.setTargetPosition(ticksToPosition);//-
             model.getDriveComponent().upperRight.setTargetPosition(-ticksToPosition);
-            model.getDriveComponent().lowerLeft.setTargetPosition(ticksToPosition);
-            model.getDriveComponent().upperLeft.setTargetPosition(-ticksToPosition);
+            model.getDriveComponent().lowerLeft.setTargetPosition(-ticksToPosition);
+            model.getDriveComponent().upperLeft.setTargetPosition(ticksToPosition);//-
 
             //sets new position
             model.getDriveComponent().upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -61,17 +61,16 @@ public class MoveHorizontallyAction extends BaseAction {
         if (!finished) {
             int targetTicks = (int) (model.getDriveComponent().TICKS_PER_CM * displacement);
             int currentTicks = model.getDriveComponent().upperLeft.getCurrentPosition();
-            float cmTraveled = currentTicks * model.getDriveComponent().TICKS_PER_CM;
+            float cmTraveled = currentTicks / model.getDriveComponent().TICKS_PER_CM;
             //updating model
-            Coordinates vector = new Coordinates(0, 0);
             //Horizontal vector is perpendicular to the vertical, so +90 degrees.
+            Coordinates vector = new Coordinates(0, 0);
             vector = new Coordinates(cmTraveled * Math.cos(model.absAngle + Math.PI/2), cmTraveled * Math.sin(model.absAngle + Math.PI/2));
-            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
-            model.coordinates = targetCoordinates;
-            telemetry.addData("targetCoordinates X:", Math.cos(model.absAngle + Math.PI/2));
-            telemetry.addData("targetCoordinates Y:", Math.sin(model.absAngle + Math.PI/2));
+            model.coordinates = Coordinates.add(initialCoordinates, vector);
+
             telemetry.addData("currentCoordinates Y:", model.coordinates.getY());
-            telemetry.addData("currentCoordinates X:", model.coordinates.getY());
+            telemetry.addData("currentCoordinates X:", model.coordinates.getX());
+            telemetry.addData("absAngle:", model.absAngle);
 
             //checking if finished
             if (targetTicks == currentTicks && currentTicks == prevTicks) {

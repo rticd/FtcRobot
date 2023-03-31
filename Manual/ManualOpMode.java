@@ -1,24 +1,20 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.Coordinates;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 @TeleOp
 public class ManualOpMode extends LinearOpMode {
 
-    DriveComponent driveComponent;
-    ArmComponent armComponent;
     RobotModel model;
-
     ManualDrive movementController;
     ManualArm armController;
 
@@ -38,28 +34,20 @@ public class ManualOpMode extends LinearOpMode {
         DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
         DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
         DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
-        driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, null);
-        movementController = new ManualDrive(driveComponent);
+        DriveComponent driveComponent = new DriveComponent(upperLeft, upperRight, lowerLeft, lowerRight, null);
+
 
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo rightClaw = hardwareMap.get(Servo.class, "rightClaw");
         Servo leftClaw = hardwareMap.get(Servo.class, "leftClaw");
-        ColorSensor colorSensor = hardwareMap.get(ColorSensor.class, "clr");
-        rightClaw.getController().pwmEnable();
-        rightClaw.setPosition(1);
-        rightClaw.setDirection(Servo.Direction.FORWARD);
-        leftClaw.getController().pwmEnable();
-        leftClaw.setPosition(1);
-        leftClaw.setDirection(Servo.Direction.FORWARD);
-        armComponent = new ArmComponent(armMotor, rightClaw, leftClaw);
-        armController = new ManualArm(armComponent);
-        armController.setTelemetry(telemetry);
+        ArmComponent armComponent = new ArmComponent(armMotor, rightClaw, leftClaw);
 
-    }
+        model = new RobotModel(driveComponent, armComponent, new Coordinates(0, 0),
+                0, true);
 
-    void onStop() {
-        armComponent.rightClaw.setPosition(0);
-        armComponent.leftClaw.setPosition(0);
+        movementController = new ManualDrive(model);
+        armController = new ManualArm(model);
+
     }
     void driveControl() {
         double turn = -gamepad1.right_stick_x;

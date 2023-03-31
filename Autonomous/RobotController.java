@@ -3,10 +3,8 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.ActionQueue;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveHorizontallyAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
-import org.firstinspires.ftc.teamcode.Common.ArmComponent;
-import org.firstinspires.ftc.teamcode.Common.DriveComponent;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 public class RobotController {
     Telemetry telemetry;

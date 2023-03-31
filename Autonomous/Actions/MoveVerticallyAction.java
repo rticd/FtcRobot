@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 
 public class MoveVerticallyAction extends BaseAction {
@@ -61,17 +61,17 @@ public class MoveVerticallyAction extends BaseAction {
         if (!finished) {
             int targetTicks = (int) (model.getDriveComponent().TICKS_PER_CM * displacement);
             int currentTicks = model.getDriveComponent().upperLeft.getCurrentPosition();
-            float cmTraveled = currentTicks * model.getDriveComponent().TICKS_PER_CM;
+            float cmTraveled = currentTicks / model.getDriveComponent().TICKS_PER_CM;
 
             //updating model
             Coordinates vector = new Coordinates(0, 0);
             vector = new Coordinates(cmTraveled * Math.cos(model.absAngle), cmTraveled * Math.sin(model.absAngle));
-            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
-            model.coordinates = targetCoordinates;
-            telemetry.addData("targetCoordinates X:", targetCoordinates.getX());
-            telemetry.addData("targetCoordinates Y:", targetCoordinates.getY());
-            telemetry.addData("currentCoordinates Y:", model.coordinates.getY());
+            model.coordinates = Coordinates.add(initialCoordinates, vector);
+
             telemetry.addData("currentCoordinates X:", model.coordinates.getX());
+            telemetry.addData("currentCoordinates Y:", model.coordinates.getY());
+            telemetry.addData("cmTraveled:", cmTraveled);
+            telemetry.addData("absAngle", model.absAngle);
 
             //checking if finished
             if (targetTicks == currentTicks && currentTicks == prevTicks) {

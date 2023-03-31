@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 //Not going to update model, since it's only really needed for autonomous.
 public class ManualDrive {
 
+
+    RobotModel model;
     DriveComponent driveComponent;
 
     double x;
@@ -26,12 +29,10 @@ public class ManualDrive {
     }
 
 
-    public ManualDrive(DriveComponent component) {
-        this.driveComponent = component;
+    public ManualDrive(RobotModel model) {
+        this.model = model;
+        this.driveComponent = model.getDriveComponent();
     }
-
-
-    //In case if the power or direction changes. Could put this code into set methods.
 
     public void update() {
         double ulPower = y + x + turn;
@@ -44,6 +45,5 @@ public class ManualDrive {
         driveComponent.lowerLeft.setPower(llPower / denominator);
         driveComponent.upperRight.setPower(urPower / denominator);
         driveComponent.lowerRight.setPower(lrPower / denominator);
-
     }
 }

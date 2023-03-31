@@ -3,58 +3,46 @@ package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
-import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 
 public class LiftArmAction extends BaseAction
 {
     RobotModel model;
     ArmComponent armComponent;
-    ArmPosition armPosition;
-    public ArmPosition getArmPosition() {
-        return armPosition;
+    double position;
+    public double getPosition() {
+        return position;
     }
-    int targetPosition;
-    public LiftArmAction(RobotModel model, ArmComponent armComponent, ArmPosition armPosition,
+    int targetTicks;
+
+    public LiftArmAction(RobotModel model, double position,
                          Telemetry telemetry) {
         super(telemetry);
         this.model = model;
-        this.armComponent = armComponent;
-        this.armPosition = armPosition;
+        this.position = position;
+        armComponent = model.getArmComponent();
     }
 
     @Override
     public void start() {
         if(!finished) {
-            switch (armPosition) {
-                case Zero:
-                    targetPosition = (int) (armComponent.ARM_TICKS_PER_CM * armComponent.GRAB_POSITION_CM);
-                    break;
-                case First:
-                    targetPosition = (int) (armComponent.ARM_TICKS_PER_CM * armComponent.PALKA_1_CM);
-                    break;
-                case Second:
-                    targetPosition = (int) (armComponent.ARM_TICKS_PER_CM * armComponent.PALKA_2_CM);
-                    break;
-                case Third:
-                    targetPosition = (int) (armComponent.ARM_TICKS_PER_CM * armComponent.PALKA_3_CM);
-                    break;
-            }
-            armComponent.armMotor.setTargetPosition(targetPosition);
+            if(position > armComponent.MAXIMUM_ARM_POSITION)
+                position = armComponent.MAXIMUM_ARM_POSITION;
+
+            targetTicks = (int)(armComponent.ARM_TICKS_PER_CM * position);
+            armComponent.armMotor.setTargetPosition(targetTicks);
             armComponent.armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
     @Override
     public void update() {
-        if(!finished && armComponent.armMotor.getCurrentPosition() == targetPosition) {
-            model.armPosition = this.armPosition;
+        if(!finished && armComponent.armMotor.getCurrentPosition() == targetTicks) {
+            model.armPosition = targetTicks / armComponent.ARM_TICKS_PER_CM;
             finished = true;
         }
     }
-
     @Override
     public void exit() {
 

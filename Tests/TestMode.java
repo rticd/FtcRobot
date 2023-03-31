@@ -5,14 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.ActionQueue;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
-import org.firstinspires.ftc.teamcode.Autonomous.FieldModel;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotController;
-import org.firstinspires.ftc.teamcode.Autonomous.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
-import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.DriveComponent;
 

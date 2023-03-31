@@ -1,21 +1,16 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 public class ManualArm {
-
-    Telemetry telemetry;
-
-    public void setTelemetry(Telemetry telemetry) {
-        this.telemetry = telemetry;
-    }
-
+    RobotModel model;
     ArmComponent armComponent;
-
     ArmPosition position = ArmPosition.Zero;
     public ArmPosition getPosition() {
         return position;
@@ -32,8 +27,9 @@ public class ManualArm {
         this.cleshnjaOpen = cleshnjaOpen;
     }
 
-    public ManualArm(ArmComponent armComponent) {
-        this.armComponent = armComponent;
+    public ManualArm(RobotModel model) {
+        this.model = model;
+        this.armComponent = model.getArmComponent();
     }
 
     public void update() {
