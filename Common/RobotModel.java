@@ -17,6 +17,10 @@ public class RobotModel {
         return armComponent;
     }
 
+    SensorComponent sensorComponent;
+    public SensorComponent getSensorComponent(){
+        return sensorComponent;
+    }
     //absolute coordinates on the field
     public Coordinates coordinates;
     public double robotHeight;
@@ -29,12 +33,13 @@ public class RobotModel {
     //current grabber state
     public boolean grabberOpen;
 
-    public RobotModel(DriveComponent driveComponent, ArmComponent armComponent, Coordinates coordinates, double absAngle, boolean grabberOpen) {
+    public RobotModel(DriveComponent driveComponent, ArmComponent armComponent,SensorComponent sensorComponent, Coordinates coordinates, double absAngle, boolean grabberOpen) {
         this.driveComponent = driveComponent;
         this.armComponent = armComponent;
         this.robotHeight = 38.3;
         this.robotWidth = 33;
         this.coordinates = coordinates;
+        this.sensorComponent = sensorComponent;
         this.absAngle = absAngle;
         this.armPosition = 0;
         this.grabberOpen = grabberOpen;

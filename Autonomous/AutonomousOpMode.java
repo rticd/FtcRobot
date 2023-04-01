@@ -29,13 +29,13 @@ public class AutonomousOpMode extends OpMode {
         DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
         DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
         //GyroSensor gyroSensor = hardwareMap.get(GyroSensor.class, "gyro");
-        DriveComponent driveComponent = new DriveComponent(upperLeft, lowerLeft, upperRight, lowerRight, null);
+        DriveComponent driveComponent = new DriveComponent(upperLeft, lowerLeft, upperRight, lowerRight, null,null);
         DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
         Servo rClaw = hardwareMap.get(Servo.class, "rightClaw");
         Servo lClaw = hardwareMap.get(Servo.class, "leftClaw");
         ArmComponent armComponent = new ArmComponent(armMotor, rClaw, lClaw);
 
-        model = new RobotModel(driveComponent, armComponent, new Coordinates(0, 0), Math.PI/2, true);
+        model = new RobotModel(driveComponent, armComponent, null,new Coordinates(0, 0), Math.PI/2, true);
         fieldModel = new FieldModel(new Coordinates(0, 0));
         controller = new RobotController(model, fieldModel, telemetry);
     }

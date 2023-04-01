@@ -19,11 +19,12 @@ public class ArmComponent {
     public Servo rightClaw;
     public Servo leftClaw;
 
+    //public int armMotorPosition;
     public ArmComponent(DcMotor armMotor, Servo rightClaw, Servo leftClaw) {
         this.rightClaw = rightClaw;
         this.leftClaw = leftClaw;
         this.armMotor = armMotor;
-
+        //this.armMotorPosition = this.armMotor.getCurrentPosition();
         rightClaw.getController().pwmEnable();
         rightClaw.setPosition(0);
         rightClaw.setDirection(Servo.Direction.FORWARD);

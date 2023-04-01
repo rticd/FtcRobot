@@ -36,8 +36,8 @@ public class ManualDrive {
 
     public void update() {
         double ulPower = y + x + turn;
-        double llPower = y - x - turn;
-        double urPower = y - x + turn;
+        double llPower = y - x + turn;
+        double urPower = y - x - turn;
         double lrPower = y + x - turn;
 
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(turn), 1);
