@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 
 public class LiftArmAction extends BaseAction
 {
-    RobotModel model;
     ArmComponent armComponent;
     double position;
     public double getPosition() {
@@ -18,8 +17,7 @@ public class LiftArmAction extends BaseAction
 
     public LiftArmAction(RobotModel model, double position,
                          Telemetry telemetry) {
-        super(telemetry);
-        this.model = model;
+        super(model, telemetry);
         this.position = position;
         armComponent = model.getArmComponent();
     }

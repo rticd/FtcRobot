@@ -8,23 +8,19 @@ import org.firstinspires.ftc.teamcode.Common.Coordinates;
 
 public class MoveVerticallyAction extends BaseAction {
     double displacement;
-    RobotModel model;
-
     double prevTicks;
     double power = 1;
 
     Coordinates initialCoordinates;
 
     public MoveVerticallyAction(RobotModel model, double power, double displacement, Telemetry telemetry) {
-        super(telemetry);
-        this.model = model;
+        super(model, telemetry);
         this.power = power;
         this.displacement = displacement;
     }
 
     @Override
     public void start() {
-
         if (!finished) {
             //sets initial position to 0
             model.getDriveComponent().upperLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

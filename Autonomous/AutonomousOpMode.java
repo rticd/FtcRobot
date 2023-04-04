@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.Common.RobotModel;
 @Autonomous
 public class AutonomousOpMode extends OpMode {
     Telemetry telemetry;
-    HardwareMap hardwareMap;
     RobotController controller;
     RobotModel model;
     FieldModel fieldModel;
@@ -24,18 +23,7 @@ public class AutonomousOpMode extends OpMode {
 
     @Override
     public void init() {
-        DcMotor upperLeft = hardwareMap.get(DcMotor.class, "lfw");
-        DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
-        DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
-        DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
-        //GyroSensor gyroSensor = hardwareMap.get(GyroSensor.class, "gyro");
-        DriveComponent driveComponent = new DriveComponent(upperLeft, lowerLeft, upperRight, lowerRight, null,null);
-        DcMotor armMotor = hardwareMap.get(DcMotor.class, "lift");
-        Servo rClaw = hardwareMap.get(Servo.class, "rightClaw");
-        Servo lClaw = hardwareMap.get(Servo.class, "leftClaw");
-        ArmComponent armComponent = new ArmComponent(armMotor, rClaw, lClaw);
-
-        model = new RobotModel(driveComponent, armComponent, null,new Coordinates(0, 0), Math.PI/2, true);
+        model = new RobotModel(hardwareMap, new Coordinates(0, 0), Math.PI/2, true);
         fieldModel = new FieldModel(new Coordinates(0, 0));
         controller = new RobotController(model, fieldModel, telemetry);
     }

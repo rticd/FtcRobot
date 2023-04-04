@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Actions;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
 public class NoAction extends BaseAction {
 
-    public NoAction(Telemetry telemetry) {
-        super(telemetry);
+    public NoAction(RobotModel model, Telemetry telemetry) {
+        super(model, telemetry);
     }
 
     @Override

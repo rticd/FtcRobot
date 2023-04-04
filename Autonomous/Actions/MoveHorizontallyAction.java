@@ -8,16 +8,12 @@ import org.firstinspires.ftc.teamcode.Common.Coordinates;
 
 public class MoveHorizontallyAction extends BaseAction {
     double displacement;
-    RobotModel model;
-
-    double prevTicks;
     double power = 1;
 
     Coordinates initialCoordinates;
 
     public MoveHorizontallyAction(RobotModel model, double power, double displacement, Telemetry telemetry) {
-        super(telemetry);
-        this.model = model;
+        super(model, telemetry);
         this.power = power;
         this.displacement = displacement;
     }
@@ -41,10 +37,10 @@ public class MoveHorizontallyAction extends BaseAction {
 
             int ticksToPosition = 0;
             ticksToPosition = (int) (model.getDriveComponent().TICKS_PER_CM * this.displacement);
-            model.getDriveComponent().lowerRight.setTargetPosition(ticksToPosition);//-
+            model.getDriveComponent().lowerRight.setTargetPosition(ticksToPosition);
             model.getDriveComponent().upperRight.setTargetPosition(-ticksToPosition);
             model.getDriveComponent().lowerLeft.setTargetPosition(-ticksToPosition);
-            model.getDriveComponent().upperLeft.setTargetPosition(ticksToPosition);//-
+            model.getDriveComponent().upperLeft.setTargetPosition(ticksToPosition);
 
             //sets new position
             model.getDriveComponent().upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -65,18 +61,20 @@ public class MoveHorizontallyAction extends BaseAction {
             //updating model
             //Horizontal vector is perpendicular to the vertical, so +90 degrees.
             Coordinates vector = new Coordinates(0, 0);
-            vector = new Coordinates(cmTraveled * Math.cos(model.absAngle + Math.PI/2), cmTraveled * Math.sin(model.absAngle + Math.PI/2));
+            vector = new Coordinates(-cmTraveled * Math.cos(model.absAngle + Math.PI/2), -cmTraveled * Math.sin(model.absAngle + Math.PI/2));
             model.coordinates = Coordinates.add(initialCoordinates, vector);
 
             telemetry.addData("currentCoordinates Y:", model.coordinates.getY());
             telemetry.addData("currentCoordinates X:", model.coordinates.getX());
+            telemetry.addData("targetCoordinates Y:", targetTicks);
+            telemetry.addData("targetCoordinates X:", targetTicks);
             telemetry.addData("absAngle:", model.absAngle);
 
             //checking if finished
-            if (targetTicks == currentTicks && currentTicks == prevTicks) {
+            //If difference is small - it's okay
+            if (currentTicks == targetTicks) {
                 finished = true;
             }
-            prevTicks = currentTicks;
         }
     }
 

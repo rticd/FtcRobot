@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.Common;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ArmComponent {
@@ -14,17 +16,17 @@ public class ArmComponent {
     public final double PALKA_3_CM = 89;
 
     //Сюда вставить ограничение на подъём руки.
-    public final double MAXIMUM_ARM_POSITION = 0;
+    public final double MAXIMUM_ARM_POSITION = 90;
     public DcMotor armMotor;
     public Servo rightClaw;
     public Servo leftClaw;
 
     //public int armMotorPosition;
-    public ArmComponent(DcMotor armMotor, Servo rightClaw, Servo leftClaw) {
-        this.rightClaw = rightClaw;
-        this.leftClaw = leftClaw;
-        this.armMotor = armMotor;
-        //this.armMotorPosition = this.armMotor.getCurrentPosition();
+    public ArmComponent(HardwareMap hardwareMap) {
+        this.armMotor = hardwareMap.get(DcMotor.class, "lift");
+        this.rightClaw = hardwareMap.get(Servo.class, "rightClaw");
+        this.leftClaw = hardwareMap.get(Servo.class, "leftClaw");
+
         rightClaw.getController().pwmEnable();
         rightClaw.setPosition(0);
         rightClaw.setDirection(Servo.Direction.FORWARD);
@@ -32,7 +34,9 @@ public class ArmComponent {
         leftClaw.setPosition(0);
         leftClaw.setDirection(Servo.Direction.FORWARD);
 
+
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setPower(1);
     }
 }

@@ -1,38 +1,36 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveHorizontallyAction;
 import org.firstinspires.ftc.teamcode.Autonomous.Actions.MoveVerticallyAction;
+import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
-public class VerticalMovementTest implements ITest{
-    Telemetry telemetry;
+@Autonomous
+public class VerticalMovementTest extends OpMode {
     RobotModel model;
+    IAction verticalAction;
+    @Override
+    public void init() {
+        model = new RobotModel(hardwareMap, new Coordinates(0, 0), Math.PI/4, true);
 
-    boolean finished;
-    IAction movement;
-
-    public VerticalMovementTest(RobotModel model, Telemetry telemetry) {
-        this.model = model;
-        this.telemetry = telemetry;
     }
 
     @Override
-    public void start() {
-        movement = new MoveVerticallyAction(model, 0.1, 50, telemetry);
-        movement.start();
-    }
-
-    @Override
-    public void update() {
-        if(!movement.isFinished()) {
-            movement.update();
-        } else
-            finished = true;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return finished;
+    public void loop() {
+        if(verticalAction == null && gamepad1.right_bumper == true) {
+            verticalAction = new MoveVerticallyAction(model, 0.4, 50, telemetry);
+            verticalAction.start();
+        }
+        else if(verticalAction != null) {
+            verticalAction.update();
+            telemetry.addData("action finished:", verticalAction.isFinished());
+        }
+        telemetry.addData("x:", model.coordinates.getX());
+        telemetry.addData("y:", model.coordinates.getY());
+        telemetry.update();
     }
 }

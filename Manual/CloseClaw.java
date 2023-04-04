@@ -17,8 +17,8 @@ public class CloseClaw extends OpMode {
         rightClaw = hardwareMap.get(Servo.class, "rightClaw");
 
         // set initial positions of the servos
-        leftClaw.setPosition(0.5);
-        rightClaw.setPosition(0.5);
+        leftClaw.setPosition(0.1);
+        rightClaw.setPosition(0.1);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class CloseClaw extends OpMode {
 
         } else if(gamepad1.left_bumper) {
             // rotate the servos outwards
-            leftClaw.setPosition(-1.0);
-            rightClaw.setPosition(-1.0);
+            leftClaw.setPosition(0);
+            rightClaw.setPosition(0);
 
         }
     }

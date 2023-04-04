@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Common;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.ArmPosition;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
@@ -32,14 +35,23 @@ public class RobotModel {
     public double armPosition;
     //current grabber state
     public boolean grabberOpen;
+    Coordinates parkingCoordinates;
+    public Coordinates getParkingCoordinates() {
+        return parkingCoordinates;
+    }
+    public void setParkingCoordinates(Coordinates parkingCoordinates) {
+        this.parkingCoordinates = parkingCoordinates;
+    }
 
-    public RobotModel(DriveComponent driveComponent, ArmComponent armComponent,SensorComponent sensorComponent, Coordinates coordinates, double absAngle, boolean grabberOpen) {
-        this.driveComponent = driveComponent;
-        this.armComponent = armComponent;
+    public RobotModel(HardwareMap hardwareMap, Coordinates coordinates, double absAngle,
+                      boolean grabberOpen) {
+        this.driveComponent = new DriveComponent(hardwareMap);
+        this.armComponent = new ArmComponent(hardwareMap);
+        this.sensorComponent = new SensorComponent(hardwareMap);
+
         this.robotHeight = 38.3;
         this.robotWidth = 33;
         this.coordinates = coordinates;
-        this.sensorComponent = sensorComponent;
         this.absAngle = absAngle;
         this.armPosition = 0;
         this.grabberOpen = grabberOpen;

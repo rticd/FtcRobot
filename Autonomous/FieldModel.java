@@ -61,8 +61,6 @@ public class FieldModel {
         return Coordinates.add(initialPosition, thirdPPVector);
     }
 
-
-
     public FieldModel(Coordinates initialPosition) {
         this.initialPosition = initialPosition;
 

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Manual.Distance;
 
@@ -17,20 +18,19 @@ public class DriveComponent {
     public DcMotor upperRight;
     public DcMotor lowerLeft;
     public DcMotor lowerRight;
-    public BNO055IMU imu;
 
-    public  DistanceSensor sensorRange;
+    public DriveComponent(HardwareMap hardwareMap) {
+        DcMotor upperLeft = hardwareMap.get(DcMotor.class, "lfw");
+        DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
+        DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
+        DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
 
-    public DriveComponent(DcMotor upperLeft, DcMotor lowerLeft, DcMotor upperRight, DcMotor lowerRight,
-                          BNO055IMU imu, DistanceSensor sensorRange) {
         lowerRight.setDirection(DcMotorSimple.Direction.REVERSE);
         lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         this.upperLeft = upperLeft;
         this.lowerLeft = lowerLeft;
         this.upperRight = upperRight;
         this.lowerRight = lowerRight;
-        this.imu = imu;
-        this.sensorRange = sensorRange;
 
     }
 }
