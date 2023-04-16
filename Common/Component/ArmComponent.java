@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.Common;
+package org.firstinspires.ftc.teamcode.Common.Component;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
 public class ArmComponent {
     public final double ARM_WHEEL_DIAMETER = 5.75;
     public final double TICKS_PER_REVOLUTION = 1120;

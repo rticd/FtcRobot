@@ -1,13 +1,16 @@
-package org.firstinspires.ftc.teamcode.Common;
+package org.firstinspires.ftc.teamcode.Common.Component;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+<<<<<<< Updated upstream:Common/DriveComponent.java
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Manual.Distance;
+=======
+import com.qualcomm.robotcore.hardware.HardwareMap;
+>>>>>>> Stashed changes:Common/Component/DriveComponent.java
 
 public class DriveComponent {
     public final double WHEEL_DIAMETER = 7.5;

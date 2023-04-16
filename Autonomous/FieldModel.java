@@ -40,14 +40,11 @@ public class FieldModel {
     public Coordinates getInitialPosition() {
         return initialPosition;
     }
-
-
     //Parking related
     Coordinates parkingCone;
     public Coordinates getParkingCone() {
         return parkingCone;
     }
-
     final Coordinates firstPPVector = new Coordinates(-1, 1, CM_PER_TILE);
     final Coordinates secondPPVector = new Coordinates(0, 1, CM_PER_TILE);
     final Coordinates thirdPPVector = new Coordinates(1, 1, CM_PER_TILE);
@@ -60,7 +57,10 @@ public class FieldModel {
     public Coordinates getThirdParkingPosition() {
         return Coordinates.add(initialPosition, thirdPPVector);
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     public FieldModel(Coordinates initialPosition) {
         this.initialPosition = initialPosition;
 
