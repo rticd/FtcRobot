@@ -33,7 +33,6 @@ public class ArmComponent {
         leftClaw.setPosition(0);
         leftClaw.setDirection(Servo.Direction.FORWARD);
 
-
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         armMotor.setPower(1);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Camera;
+package org.firstinspires.ftc.teamcode.Autonomous.Camera.Util;
 
 import android.graphics.Bitmap;
 
@@ -13,17 +13,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ReadQRCode {
 
     public static Result readQRCode(Bitmap bitmap) {
-<<<<<<< Updated upstream:Autonomous/Camera/ReadQRCode.java
-=======
 
->>>>>>> Stashed changes:Autonomous/Camera/Util/ReadQRCode.java
         int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
         bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
         RGBLuminanceSource source = new RGBLuminanceSource(bitmap.getWidth(), bitmap.getHeight(), pixels);
         BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
         MultiFormatReader reader = new MultiFormatReader();
         Result result;
-        try { //result.getText
+        try {
             result = reader.decode(binaryBitmap);
             return result;
         } catch (NotFoundException e) {

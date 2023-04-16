@@ -6,22 +6,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Component.ArmComponent;
 
-<<<<<<< Updated upstream:Autonomous/Actions/LiftArmAction.java
-public class LiftArmAction extends BaseAction
-{
-=======
 public class LiftArmAction extends BaseAction {
->>>>>>> Stashed changes:Common/Actions/LiftArmAction.java
     ArmComponent armComponent;
     double position;
     int targetTicks;
 
-<<<<<<< Updated upstream:Autonomous/Actions/LiftArmAction.java
-    public LiftArmAction(RobotModel model, double position,
-                         Telemetry telemetry) {
-=======
     public LiftArmAction(RobotModel model, double position, Telemetry telemetry) {
->>>>>>> Stashed changes:Common/Actions/LiftArmAction.java
         super(model, telemetry);
         this.position = position;
         armComponent = model.getArmComponent();

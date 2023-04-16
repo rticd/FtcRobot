@@ -1,31 +1,19 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-<<<<<<< Updated upstream
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.IAction;
-import org.firstinspires.ftc.teamcode.Autonomous.Actions.RotateAction;
-import org.firstinspires.ftc.teamcode.Common.DriveComponent;
-import org.firstinspires.ftc.teamcode.Common.RobotModel;
-import org.firstinspires.ftc.teamcode.Common.SensorComponent;
-=======
 import org.firstinspires.ftc.teamcode.Common.Actions.Action;
 import org.firstinspires.ftc.teamcode.Common.Actions.RotationDirection;
 import org.firstinspires.ftc.teamcode.Common.Actions.Turn;
 import org.firstinspires.ftc.teamcode.Common.Component.DriveComponent;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Component.SensorComponent;
->>>>>>> Stashed changes
 
 //Not going to update model, since it's only really needed for autonomous.
 public class ManualDrive {
     RobotModel model;
     DriveComponent driveComponent;
     SensorComponent sensorComponent;
-<<<<<<< Updated upstream
-    IAction rotationAction;
-=======
     Action rotationAction;
->>>>>>> Stashed changes
     Telemetry telemetry;
 
     Turn actionTurn;
@@ -53,25 +41,6 @@ public class ManualDrive {
         this.driveComponent = model.getDriveComponent();
         this.sensorComponent = model.getSensorComponent();
         this.telemetry = telemetry;
-<<<<<<< Updated upstream
-    }
-
-    //Короче, автоматический поворот на 90 градусов будет блокировать движение.
-    //Иначе никак/не имеет смысла.
-    //Блокируется только движение колёс, всё остальное (руку там, клешню) можно использовать.
-
-
-    public void startTurning(double deltaAngle) {
-        if(rotationAction == null) {
-            driveComponent.lowerRight.setPower(0);
-            driveComponent.upperRight.setPower(0);
-            driveComponent.lowerLeft.setPower(0);
-            driveComponent.upperLeft.setPower(0);
-            rotationAction = new RotateAction(model, deltaAngle, telemetry);
-            rotationAction.start();
-        }
-=======
->>>>>>> Stashed changes
     }
 
     //Короче, автоматический поворот на 90 градусов будет блокировать движение.

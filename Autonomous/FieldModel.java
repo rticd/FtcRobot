@@ -57,10 +57,6 @@ public class FieldModel {
     public Coordinates getThirdParkingPosition() {
         return Coordinates.add(initialPosition, thirdPPVector);
     }
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
     public FieldModel(Coordinates initialPosition) {
         this.initialPosition = initialPosition;
 
