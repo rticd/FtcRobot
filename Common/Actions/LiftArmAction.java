@@ -1,27 +1,20 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Actions;
+package org.firstinspires.ftc.teamcode.Common.Actions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
-import org.firstinspires.ftc.teamcode.Common.ArmComponent;
+import org.firstinspires.ftc.teamcode.Common.Components.ArmComponent;
 
-public class LiftArmAction extends BaseAction
-{
-    RobotModel model;
+public class LiftArmAction extends BaseAction {
     ArmComponent armComponent;
     double position;
-    public double getPosition() {
-        return position;
-    }
     int targetTicks;
 
-    public LiftArmAction(RobotModel model, double position,
-                         Telemetry telemetry) {
-        super(telemetry);
-        this.model = model;
+    public LiftArmAction(RobotModel robotModel, double position, Telemetry telemetry) {
+        super(robotModel, telemetry);
         this.position = position;
-        armComponent = model.getArmComponent();
+        armComponent = robotModel.getArmComponent();
     }
 
     @Override
@@ -39,12 +32,9 @@ public class LiftArmAction extends BaseAction
     @Override
     public void update() {
         if(!finished && armComponent.armMotor.getCurrentPosition() == targetTicks) {
-            model.armPosition = targetTicks / armComponent.ARM_TICKS_PER_CM;
+            robotModel.armPosition = targetTicks / armComponent.ARM_TICKS_PER_CM;
             finished = true;
         }
     }
-    @Override
-    public void exit() {
 
-    }
 }

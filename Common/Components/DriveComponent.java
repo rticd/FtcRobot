@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Common;
+package org.firstinspires.ftc.teamcode.Common.Components;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class DriveComponent {
     public final double WHEEL_DIAMETER = 7.5;
@@ -13,16 +13,19 @@ public class DriveComponent {
     public DcMotor upperRight;
     public DcMotor lowerLeft;
     public DcMotor lowerRight;
-    public GyroSensor gyroSensor;
 
-    public DriveComponent(DcMotor upperLeft, DcMotor lowerLeft, DcMotor upperRight, DcMotor lowerRight,
-                          GyroSensor gyroSensor) {
+    public DriveComponent(HardwareMap hardwareMap) {
+        DcMotor upperLeft = hardwareMap.get(DcMotor.class, "lfw");
+        DcMotor upperRight = hardwareMap.get(DcMotor.class, "rfw");
+        DcMotor lowerLeft = hardwareMap.get(DcMotor.class, "lbw");
+        DcMotor lowerRight = hardwareMap.get(DcMotor.class, "rbw");
+
+        lowerRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         this.upperLeft = upperLeft;
         this.lowerLeft = lowerLeft;
         this.upperRight = upperRight;
         this.lowerRight = lowerRight;
-        this.gyroSensor = gyroSensor;
-        lowerRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        lowerLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
     }
 }
