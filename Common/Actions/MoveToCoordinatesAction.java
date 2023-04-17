@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.Common.Actions;
 
-import com.qualcomm.robotcore.robot.Robot;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Common.Components.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.MotionDirection;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class MoveToCoordinates extends BaseAction {
+public class MoveToCoordinatesAction extends BaseAction {
     Queue<IAction> actions;
     IAction currentAction;
 
@@ -19,30 +17,34 @@ public class MoveToCoordinates extends BaseAction {
 
     Coordinates targetCoordinates;
 
-    public MoveToCoordinates(RobotModel robotModel, DriveComponent driveComponent,
-                                           Coordinates targetCoordinates, Telemetry telemetry) {
+    public MoveToCoordinatesAction(RobotModel robotModel,
+                                   Coordinates targetCoordinates, Telemetry telemetry) {
         super(robotModel, telemetry);
-        this.driveComponent = driveComponent;
+        driveComponent = robotModel.getDriveComponent();
         this.targetCoordinates = targetCoordinates;
     }
 
     void initializeActions() {
+        actions = new LinkedList<>();
         double absAngle = 90;
         double deltaAngle = robotModel.absAngle - absAngle;
         IAction rotateTo90Deg = new TurnAction(robotModel, deltaAngle, telemetry);
         actions.add(rotateTo90Deg);
 
         Coordinates vector = new Coordinates(
-                robotModel.coordinates.getX() - targetCoordinates.getX(),
-                robotModel.coordinates.getY() - targetCoordinates.getY()
+                targetCoordinates.getX() - robotModel.coordinates.getX(),
+                targetCoordinates.getY() - robotModel.coordinates.getY()
         );
-        IAction moveHorizontally = new TickMotionAction(robotModel, 1, vector.getX(),
-                MotionDirection.horizontal, telemetry);
-        actions.add(moveHorizontally);
 
         IAction moveVertically = new TickMotionAction(robotModel, 1, vector.getY(),
                 MotionDirection.vertical, telemetry);
         actions.add(moveVertically);
+
+        IAction moveHorizontally = new TickMotionAction(robotModel, 1, vector.getX(),
+                MotionDirection.horizontal, telemetry);
+        actions.add(moveHorizontally);
+
+
     }
 
     //No async await :(
@@ -58,6 +60,7 @@ public class MoveToCoordinates extends BaseAction {
     @Override
     public void update() {
         if(finished) return;
+        telemetry.addData("current action in mtoa", currentAction);
         if(currentAction.isFinished())
             if(actions.peek() != null) {
                 currentAction = actions.poll();

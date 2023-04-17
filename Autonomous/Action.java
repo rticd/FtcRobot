@@ -21,7 +21,7 @@ public class Action {
         if (state == State.Scan){
             
         } else if (state==State.toCone){
-            toCone.act();
+//            toCone.act();
         } else if (state ==State.toPole){
             if (AutoBlue.polePosition== RelativePosition.center){
                 if (AutoBlue.poleArea > 2000 && AutoBlue.poleArea < 3000){

@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.Autonomous.Action;
 import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
@@ -13,15 +14,12 @@ import org.firstinspires.ftc.teamcode.Common.Components.SensorComponent;
 import org.firstinspires.ftc.teamcode.Common.RotationDirection;
 
 public class TurnAction extends BaseAction {
-    final double MAX_POWER = 1;
-    final double MIN_POWER = 0.4;
+    final double MAX_POWER = 0.5;
+    final double MIN_POWER = 0.2;
     DriveComponent driveComponent;
     SensorComponent sensorComponent;
     double deltaAngle;
     double targetAngle;
-
-    public boolean turning = false;
-
     public RotationDirection rotationDirection;
     public TurnAction(RobotModel robotModel, double deltaAngle, Telemetry telemetry) {
         super(robotModel, telemetry);
@@ -35,16 +33,17 @@ public class TurnAction extends BaseAction {
     public void start() {
         double angleY = -sensorComponent.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         targetAngle = angleY + deltaAngle;
-        turning = true;
-
     }
 
     @Override
     public void update() {
+        Orientation angles = sensorComponent.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double currentAngle = -sensorComponent.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         telemetry.addData("Target Angle", targetAngle);
         telemetry.addData("Current Angle", currentAngle);
-        telemetry.update();
+        telemetry.addData("X",angles.thirdAngle);
+        telemetry.addData("Y",angles.secondAngle);
+        telemetry.addData("Z",angles.firstAngle);
         double power = getPowerLevel(currentAngle, targetAngle, Math.abs(deltaAngle));
         int direction = (int) Math.signum(targetAngle - currentAngle);
         driveComponent.lowerLeft.setPower(-direction * power);
@@ -57,11 +56,14 @@ public class TurnAction extends BaseAction {
         driveComponent.lowerRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         if (Math.abs(currentAngle - targetAngle) <= 0.5 || Math.abs(currentAngle - targetAngle) > 180.5) {
+            telemetry.addData("Inside stopping block",true);
             driveComponent.lowerLeft.setPower(0);
             driveComponent.upperRight.setPower(0);
             driveComponent.upperLeft.setPower(0);
             driveComponent.lowerRight.setPower(0);
             rotationDirection = RotationDirection.none;
+            finished=true;
+
             Action.rotate = null;
         } else{
             rotationDirection = direction == 1 ? RotationDirection.right : RotationDirection.left;
@@ -82,5 +84,6 @@ public class TurnAction extends BaseAction {
 
         return -powerLevel;
     }
+
 
 }

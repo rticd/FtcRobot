@@ -100,7 +100,7 @@ public class ManualOpMode extends LinearOpMode {
         }
         if (!liftActionOccurred){
             vibrateController.update();
-            if (vibrateController.vibrated){
+            if (model.vibrated){
                 gamepad2.rumble(500);
             }
         }

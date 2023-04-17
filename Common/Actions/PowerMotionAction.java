@@ -49,14 +49,25 @@ public class PowerMotionAction extends BaseAction {
     public void update(){
         //Coordinates update
         int currentTicks = robotModel.getDriveComponent().upperLeft.getCurrentPosition();
-        float cmTraveled = currentTicks * robotModel.getDriveComponent().TICKS_PER_CM;
+        float cmTraveled = currentTicks / robotModel.getDriveComponent().TICKS_PER_CM;
 
-        //updating model
-        Coordinates vector = new Coordinates(0, 0);
-        //Horizontal vector is perpendicular to the vertical, so +90 degrees.
-        vector = new Coordinates(cmTraveled * Math.cos(robotModel.absAngle + 90), cmTraveled * Math.sin(robotModel.absAngle + Math.PI / 2));
-        robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
-        Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
-        robotModel.coordinates = targetCoordinates;
+
+        if(direction == MotionDirection.vertical) {
+            //updating model
+            Coordinates vector = new Coordinates(0, 0);
+            //Horizontal vector is perpendicular to the vertical, so +90 degrees.
+            vector = new Coordinates(cmTraveled * Math.cos(robotModel.absAngle), cmTraveled * Math.sin(robotModel.absAngle));
+            robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
+            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
+            robotModel.coordinates = targetCoordinates;
+        } else if(direction == MotionDirection.horizontal){
+            //updating model
+            Coordinates vector = new Coordinates(0, 0);
+            //Horizontal vector is perpendicular to the vertical, so +90 degrees.
+            vector = new Coordinates(cmTraveled * Math.cos(robotModel.absAngle + 90), cmTraveled * Math.sin(robotModel.absAngle + 90));
+            robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
+            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
+            robotModel.coordinates = targetCoordinates;
+        }
     }
 }

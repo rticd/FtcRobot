@@ -55,17 +55,17 @@ public class TickMotionAction extends BaseAction {
             robotModel.getDriveComponent().lowerRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             //Calculating the powers
-            robotModel.getDriveComponent().lowerLeft.setPower(-this.power);
-            robotModel.getDriveComponent().upperRight.setPower(-this.power);
-            robotModel.getDriveComponent().upperLeft.setPower(this.power);
-            robotModel.getDriveComponent().lowerRight.setPower(this.power);
+            robotModel.getDriveComponent().lowerLeft.setPower(power);
+            robotModel.getDriveComponent().upperRight.setPower(power);
+            robotModel.getDriveComponent().upperLeft.setPower(power);
+            robotModel.getDriveComponent().lowerRight.setPower(power);
 
 
             ticksToPosition = (int) (robotModel.getDriveComponent().TICKS_PER_CM * this.displacement);
-            robotModel.getDriveComponent().lowerRight.setTargetPosition(ticksToPosition);
-            robotModel.getDriveComponent().upperRight.setTargetPosition(ticksToPosition);
-            robotModel.getDriveComponent().lowerLeft.setTargetPosition(ticksToPosition);
-            robotModel.getDriveComponent().upperLeft.setTargetPosition(ticksToPosition);
+            driveComponent.lowerRight.setTargetPosition(ticksToPosition);
+            driveComponent.upperRight.setTargetPosition(-ticksToPosition);
+            driveComponent.lowerLeft.setTargetPosition(-ticksToPosition);
+            driveComponent.upperLeft.setTargetPosition(ticksToPosition);
 
             //sets new position
             robotModel.getDriveComponent().upperLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -73,7 +73,6 @@ public class TickMotionAction extends BaseAction {
             robotModel.getDriveComponent().upperRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robotModel.getDriveComponent().lowerRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-
     }
     @Override
     public void update() {
@@ -92,15 +91,29 @@ public class TickMotionAction extends BaseAction {
         //Coordinates update
         int targetTicks = (int) (robotModel.getDriveComponent().TICKS_PER_CM * displacement);
         int currentTicks = robotModel.getDriveComponent().upperLeft.getCurrentPosition();
-        float cmTraveled = currentTicks * robotModel.getDriveComponent().TICKS_PER_CM;
-
+        telemetry.addData("currentTicks", currentTicks);
+        float cmTraveled = currentTicks / robotModel.getDriveComponent().TICKS_PER_CM;
+        telemetry.addData("cmTraveled", cmTraveled);
         //updating model
-        Coordinates vector = new Coordinates(0, 0);
-        //Horizontal vector is perpendicular to the vertical, so +90 degrees.
-        vector = new Coordinates(cmTraveled * Math.cos(robotModel.absAngle + 90), cmTraveled * Math.sin(robotModel.absAngle + Math.PI / 2));
-        robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
-        Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
-        robotModel.coordinates = targetCoordinates;
+        if(direction == MotionDirection.vertical) {
+
+            Coordinates vector = new Coordinates(0, 0);
+            double radAngle = robotModel.absAngle/180*Math.PI;
+            vector = new Coordinates(cmTraveled * Math.cos(radAngle), cmTraveled * Math.sin(radAngle));
+            robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
+            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
+            robotModel.coordinates = targetCoordinates;
+        } else if(direction == MotionDirection.horizontal) {
+
+            Coordinates vector = new Coordinates(0, 0);
+            //Horizontal vector is perpendicular to the vertical, so +90 degrees.
+            double radAngle = (robotModel.absAngle + 90)/180*Math.PI;
+            vector = new Coordinates(-cmTraveled * Math.cos(radAngle), cmTraveled * Math.sin(radAngle));
+            robotModel.coordinates = Coordinates.add(initialCoordinates, vector);
+            Coordinates targetCoordinates = Coordinates.add(initialCoordinates, vector);
+            robotModel.coordinates = targetCoordinates;
+        }
+
 
         //checking if finished
         if (targetTicks == currentTicks) {
