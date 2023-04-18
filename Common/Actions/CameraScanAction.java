@@ -12,23 +12,17 @@ public class CameraScanAction extends BaseAction {
     CameraComponent cameraComponent;
     FieldModel fieldModel;
     Coordinates parkingPosition;
-    Result result;
-    public CameraScanAction(RobotModel robotModel, Telemetry telemetry) {
+    String position;
+
+    public CameraScanAction(RobotModel robotModel, String position, Telemetry telemetry) {
         super(robotModel, telemetry);
         this.cameraComponent = robotModel.getCameraComponent();
+        this.position = position;
     }
 
     @Override
     public void start() {
-        this.cameraComponent.start();;
-    }
-
-    @Override
-    public void update() {
-        if (this.cameraComponent.pipeline.result != null){
-            this.result = this.cameraComponent.pipeline.result;
-            String text = result.getText();
-            switch (text) {
+            switch (position) {
                 case "1":
                     this.robotModel.setParkingCoordinates(fieldModel.getFirstParkingPosition());
                     break;
@@ -41,7 +35,10 @@ public class CameraScanAction extends BaseAction {
             }
             robotModel.setParkingCoordinates(parkingPosition);
             finished = true;
-            this.cameraComponent.webcam.stopStreaming();
-        }
+    }
+
+    @Override
+    public void update() {
+
     }
 }

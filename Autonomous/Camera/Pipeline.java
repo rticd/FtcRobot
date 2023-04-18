@@ -5,10 +5,16 @@ import android.graphics.Bitmap;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.google.zxing.Result;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBlue;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousEntryPoint;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotateConeBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotatePoleBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ScanBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToConeBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToPoleBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.BlueConeDetectionUtil;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ReadQRCode;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.RelativePosition;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.YellowPoleDetectionUtil;
 import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.android.Utils;
@@ -19,22 +25,36 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class Pipeline extends OpenCvPipeline {
     OpenCvWebcam webcam;
     boolean viewportPaused;
-
-    FtcDashboard dashboard;
+    public static FtcDashboard dashboard;
     public Result result;
-    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard){
+    public static String parkingPosition;
+    public static double coneArea = 0;
+    public static double poleArea = 0;
+    public static RelativePosition conePosition;
+    public static RelativePosition polePosition;
+    public static boolean coneSelected;
+    public static boolean poleSelected;
+    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard, State state){
         this.webcam = webcam;
         this.dashboard =dashboard;
+        //this.state = state;
     }
     @Override
     public Mat processFrame(Mat input) {
         Bitmap bitmap = Bitmap.createBitmap(input.cols(), input.rows(), Bitmap.Config.ARGB_8888);
-        if (AutoBlue.currentAction == State.Scan) {
+        if (AutonomousEntryPoint.currentBehaviour instanceof ScanBehaviour) {
             Utils.matToBitmap(input, bitmap);
-            if (ReadQRCode.readQRCode(bitmap)!=null){
-                AutoBlue.parkingPosition = ReadQRCode.readQRCode(bitmap).getText();
+            //Если parkingPosition ещё не найден, то сканить.
+            if (ReadQRCode.readQRCode(bitmap) != null) {
+                parkingPosition = ReadQRCode.readQRCode(bitmap).getText();
             }
-        } else if (AutoBlue.currentAction == State.toCone || AutoBlue.currentAction==State.RotateCone) {
+        }
+            //Насколько я могу понять, код внизу только выводит картинку на dashboard.
+            //чтобы использовать его в Behaviour, создай в pipeline статические переменные с
+            //нужной тебе информацией и назначи им значения внизу как тебе надо.
+            //потом, ты сможешь использовать их как угодно в своих классах.
+
+         else if (AutonomousEntryPoint.currentBehaviour instanceof ToConeBehaviour || AutonomousEntryPoint.currentBehaviour instanceof RotateConeBehaviour) {
             final Mat extractedColors = BlueConeDetectionUtil.extractColors(input);
             // Process frame
             final Mat processed = BlueConeDetectionUtil.processImage(extractedColors);
@@ -45,17 +65,18 @@ public class Pipeline extends OpenCvPipeline {
             extractedColors.copyTo(input);
             extractedColors.release();
             processed.release();
-        } else if(AutoBlue.currentAction == State.toPole|| AutoBlue.currentAction==State.RotatePole){
-            final Mat extractedColors = YellowPoleDetectionUtil.extractColors(input);
+        }
+         else if(AutonomousEntryPoint.currentBehaviour instanceof ToPoleBehaviour || AutonomousEntryPoint.currentBehaviour instanceof RotatePoleBehaviour) {
+            final Mat extractedColorsYellow = YellowPoleDetectionUtil.extractColors(input);
             // Process frame
-            final Mat processed = YellowPoleDetectionUtil.processImage(extractedColors);
+            final Mat processedYellow = YellowPoleDetectionUtil.processImage(extractedColorsYellow);
             // Mark outer contour
-            YellowPoleDetectionUtil.markOuterContour(processed, extractedColors);
-            Utils.matToBitmap(extractedColors, bitmap);
+            YellowPoleDetectionUtil.markOuterContour(processedYellow, extractedColorsYellow);
+            Utils.matToBitmap(extractedColorsYellow, bitmap);
             input.release();
-            extractedColors.copyTo(input);
-            extractedColors.release();
-            processed.release();
+            extractedColorsYellow.copyTo(input);
+            extractedColorsYellow.release();
+            processedYellow.release();
         }
 
         dashboard.sendImage(bitmap);
@@ -65,11 +86,13 @@ public class Pipeline extends OpenCvPipeline {
 
     @Override
     public void onViewportTapped() {
+        this.webcam.pauseViewport();
+        /*
         viewportPaused = !viewportPaused;
         if (viewportPaused) {
             this.webcam.pauseViewport();
         } else {
             this.webcam.resumeViewport();
-        }
+        }*/
     }
 }

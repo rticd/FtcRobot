@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Common;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBlue;
 import org.firstinspires.ftc.teamcode.Common.Components.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.Components.CameraComponent;
 import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
@@ -38,11 +37,11 @@ public class RobotModel {
     //current arm position
     public double armPosition;
     //current grabber state
-    public boolean grabberOpen;
-    Coordinates parkingCoordinates;
-    public int parkingPosition;
+    public boolean grabberOpen; //for manual
 
-    public boolean withCone = false;
+    public boolean withCone;
+    Coordinates parkingCoordinates;
+
     public boolean vibrated;
 
 
@@ -57,7 +56,7 @@ public class RobotModel {
         this.driveComponent = new DriveComponent(hardwareMap);
         this.armComponent = new ArmComponent(hardwareMap);
         this.sensorComponent = new SensorComponent(hardwareMap);
-        this.cameraComponent = new CameraComponent(hardwareMap, AutoBlue.dashboard,640,480);
+        this.cameraComponent = new CameraComponent(hardwareMap,640,480);
         this.robotHeight = 38.3;
         this.robotWidth = 33;
         this.armPosition = 0;

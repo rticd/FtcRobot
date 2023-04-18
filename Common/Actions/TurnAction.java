@@ -7,7 +7,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.Autonomous.Action;
 import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Components.SensorComponent;
@@ -63,8 +62,6 @@ public class TurnAction extends BaseAction {
             driveComponent.lowerRight.setPower(0);
             rotationDirection = RotationDirection.none;
             finished=true;
-
-            Action.rotate = null;
         } else{
             rotationDirection = direction == 1 ? RotationDirection.right : RotationDirection.left;
         }

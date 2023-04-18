@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Camera.Util;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBlue;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Pipeline;
 import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.core.Point;
 import org.opencv.core.*;
@@ -167,7 +167,7 @@ public class RedConeDetectionUtil {
                         new Scalar(0, 255, 0),
                         1
                 );
-                AutoBlue.conePosition = getRelativePosition(center, originalImage);
+                Pipeline.conePosition = getRelativePosition(center, originalImage);
                 /*
                 System.out.print("\033[H\033[2J"); // ANSI escape code to clear console
                 System.out.flush();

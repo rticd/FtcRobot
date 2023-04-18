@@ -19,10 +19,10 @@ public class CameraComponent {
 
     int height;
     int width;
-    public CameraComponent(HardwareMap hardwareMap, FtcDashboard dashboard,int width,int height){
+    public CameraComponent(HardwareMap hardwareMap,int width,int height){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        this.pipeline = new Pipeline(webcam,dashboard);
+        this.pipeline = new Pipeline(webcam,Pipeline.dashboard);
         webcam.setPipeline(this.pipeline);
         this.height = height;
         this.width = width;

@@ -5,9 +5,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Common.Components.SensorComponent;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
-public class VibrateController extends BaseAction {
+public class VibrateAction extends BaseAction {
     SensorComponent sensorComponent;
-    public VibrateController(RobotModel robotModel, Telemetry telemetry){
+    public VibrateAction(RobotModel robotModel, Telemetry telemetry){
         super(robotModel, telemetry);
         this.sensorComponent = robotModel.getSensorComponent();
     }

@@ -18,11 +18,11 @@ public class ManualArm {
 
     public void setCleshnja(boolean open) {
         if (open) {
-            model.grabberOpen = true;
+            model.withCone = true;
             armComponent.rightClaw.setPosition(1);
             armComponent.leftClaw.setPosition(0);
         } else {
-            model.grabberOpen = false;
+            model.withCone = false;
             armComponent.rightClaw.setPosition(0);
             armComponent.leftClaw.setPosition(1);
         }

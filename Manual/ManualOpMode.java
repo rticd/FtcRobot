@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Common.RotationDirection;
-import org.firstinspires.ftc.teamcode.Common.Actions.VibrateController;
+import org.firstinspires.ftc.teamcode.Common.Actions.VibrateAction;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 import org.firstinspires.ftc.teamcode.Common.Components.ArmPosition;
 
@@ -58,7 +58,7 @@ public class ManualOpMode extends LinearOpMode {
     void armControl() {
         telemetry.addData("Busy",liftActionOccurred);
 
-        VibrateController vibrateController = new VibrateController(model,telemetry);
+        VibrateAction vibrateController = new VibrateAction(model,telemetry);
         if (gamepad2.left_trigger > 0.1f){
             armController.controlLiftManually(-1);
             liftActionOccurred = true;
