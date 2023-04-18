@@ -15,10 +15,10 @@ public class MovementTest extends OpMode {
 
     @Override
     public void init() {
-        robotModel = new RobotModel(hardwareMap);
-        moveVerticallyAction = new TickMotionAction(robotModel, 1, 50,
-                MotionDirection.horizontal, telemetry);
-        moveVerticallyAction.start();
+//        robotModel = new RobotModel(hardwareMap);
+//        moveVerticallyAction = new TickMotionAction(robotModel, 1, 50,
+//                MotionDirection.horizontal, telemetry);
+//        moveVerticallyAction.start();
     }
 
     @Override

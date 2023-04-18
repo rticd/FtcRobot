@@ -30,8 +30,8 @@ public class RobotModel {
     }
     //absolute coordinates on the field
     public Coordinates coordinates;
-    public double robotHeight;
-    public double robotWidth;
+    public final double HEIGHT = 37;
+    public final double WIDTH = 35;
 
     //angle to the x axis
     public double absAngle;
@@ -58,8 +58,6 @@ public class RobotModel {
         this.armComponent = new ArmComponent(hardwareMap);
         this.sensorComponent = new SensorComponent(hardwareMap);
         this.cameraComponent = new CameraComponent(hardwareMap, robotTeamColor,640,480);
-        this.robotHeight = 38.3;
-        this.robotWidth = 33;
         this.armPosition = 0;
         coordinates = initialCoordinates;
         absAngle = 0;

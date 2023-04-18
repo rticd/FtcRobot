@@ -34,9 +34,9 @@ public class Pipeline extends OpenCvPipeline {
 
     public static ConeDetectionUtil coneDetectionUtil;
 
-    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard, ConeDetectionUtil coneDetectionUtil){
+    public Pipeline(OpenCvWebcam webcam, ConeDetectionUtil coneDetectionUtil){
         this.webcam = webcam;
-        this.dashboard =dashboard;
+        this.dashboard =FtcDashboard.getInstance();
         this.coneDetectionUtil = coneDetectionUtil;
     }
     @Override

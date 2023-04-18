@@ -27,9 +27,9 @@ public class CameraComponent {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         if(color == RobotTeamColor.Blue)
-            this.pipeline = new Pipeline(webcam, Pipeline.dashboard, new BlueConeDetectionUtil());
+            this.pipeline = new Pipeline(webcam, new BlueConeDetectionUtil());
         else if(color == RobotTeamColor.Red)
-            this.pipeline = new Pipeline(webcam, Pipeline.dashboard, new RedConeDetectionUtil());
+            this.pipeline = new Pipeline(webcam, new RedConeDetectionUtil());
 
         webcam.setPipeline(this.pipeline);
         this.height = height;

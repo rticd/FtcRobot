@@ -36,11 +36,11 @@ public class MoveToCoordinatesAction extends BaseAction {
                 targetCoordinates.getY() - robotModel.coordinates.getY()
         );
 
-        IAction moveVertically = new TickMotionAction(robotModel, 1, vector.getY(),
+        IAction moveVertically = new TickMotionAction(robotModel, 0.1, vector.getY(),
                 MotionDirection.vertical, telemetry);
         actions.add(moveVertically);
 
-        IAction moveHorizontally = new TickMotionAction(robotModel, 1, vector.getX(),
+        IAction moveHorizontally = new TickMotionAction(robotModel, 0.1, vector.getX(),
                 MotionDirection.horizontal, telemetry);
         actions.add(moveHorizontally);
 
@@ -59,6 +59,8 @@ public class MoveToCoordinatesAction extends BaseAction {
     //Sorry for such a messy solution. In don't know how to do it without coroutines or tasks.
     @Override
     public void update() {
+        telemetry.addData("Target coordinates x", targetCoordinates.getX());
+        telemetry.addData("Target coordinates y", targetCoordinates.getY());
         if(finished) return;
         telemetry.addData("current action in mtoa", currentAction);
         if(currentAction.isFinished())

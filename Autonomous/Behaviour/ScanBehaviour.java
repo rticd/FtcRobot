@@ -42,10 +42,11 @@ public class ScanBehaviour implements IBehaviour {
     }
 
     void finishTheBehaviour() {
-        if (this.robotModel.withCone){
-            AutonomousEntryPoint.currentBehaviour = new ToPoleBehaviour(this.robotModel,this.telemetry);
-        } else {
-            AutonomousEntryPoint.currentBehaviour = new ToConeBehaviour(this.robotModel,this.telemetry);
-        }
+//        if (this.robotModel.withCone){
+//            AutonomousEntryPoint.currentBehaviour = new ToPoleBehaviour(this.robotModel,this.telemetry);
+//        } else {
+//            AutonomousEntryPoint.currentBehaviour = new ToConeBehaviour(this.robotModel,this.telemetry);
+//        }
+        AutonomousEntryPoint.currentBehaviour = new ParkingBehaviour(robotModel, telemetry);
     }
 }

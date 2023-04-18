@@ -121,8 +121,8 @@ public class TickMotionAction extends BaseAction {
         }
     }
     double getPowerLevel (int currentTicks, int ticksToPosition){
-        double min_power = 0.5;
-        double max_power = 1;
+        double min_power = 0.3; //0.5
+        double max_power = 0.6; //1
         double tickDifference = ticksToPosition - currentTicks;
         double powerLevel = min_power + (tickDifference * 3 / ticksToPosition) * (max_power - min_power);
 
