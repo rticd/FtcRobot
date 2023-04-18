@@ -15,8 +15,8 @@ public class TestParking extends OpMode {
     IAction parkingAction;
     @Override
     public void init() {
-        robotModel = new RobotModel(hardwareMap);
-        parkingAction = new MoveToCoordinatesAction(robotModel, new Coordinates(40, 40), telemetry);
+//        robotModel = new RobotModel(hardwareMap);
+//        parkingAction = new MoveToCoordinatesAction(robotModel, new Coordinates(40, 40), telemetry);
     }
 
     @Override

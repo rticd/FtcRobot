@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Camera.Util;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Pipeline;
-import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.core.Point;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
@@ -14,12 +13,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class BlueConeDetectionUtil {
+public class BlueConeDetectionUtil implements ConeDetectionUtil {
 
-    private BlueConeDetectionUtil() {
+    public BlueConeDetectionUtil() {
 
     }
-    public static Mat extractColors(final Mat src) {
+    public Mat extractColors(final Mat src) {
         Mat hsv = new Mat();
         Imgproc.cvtColor(src, hsv, Imgproc.COLOR_RGB2HSV);
 
@@ -39,7 +38,7 @@ public class BlueConeDetectionUtil {
         return result;
     }
 
-    public static Mat processImage(final Mat mat) {
+    public Mat processImage(final Mat mat) {
         final Mat processed = new Mat(mat.height(), mat.width(), mat.type());
         // Increase the Gaussian blur kernel size to reduce noise and smoothen the edges
         Imgproc.GaussianBlur(mat, processed, new Size(9, 9), 1);
@@ -54,7 +53,7 @@ public class BlueConeDetectionUtil {
     }
 
 
-   public static void markOuterContour(final Mat processedImage,
+   public void markOuterContour(final Mat processedImage,
                                        final Mat originalImage) {
        // Find contours of an image
 
@@ -123,7 +122,7 @@ public class BlueConeDetectionUtil {
 
        }
 
-       private static void displayCentre (Mat originalImage){
+       public void displayCentre (Mat originalImage){
            // Calculate the center of the input image
            int centerX = originalImage.cols() / 2;
            int centerY = originalImage.rows() / 2;
@@ -145,7 +144,7 @@ public class BlueConeDetectionUtil {
 
        }
 
-       private static RelativePosition getRelativePosition (Point center, Mat image){
+       public RelativePosition getRelativePosition (Point center, Mat image){
 
            Point imageCenter = new Point(image.cols() / 2, image.rows() / 2);
 

@@ -14,9 +14,9 @@ public class TestRotation extends OpMode {
 
     @Override
     public void init() {
-        robotModel = new RobotModel(hardwareMap);
-        rotation = new TurnAction(robotModel, 90, telemetry);
-        rotation.start();
+//        robotModel = new RobotModel(hardwareMap);
+//        rotation = new TurnAction(robotModel, 90, telemetry);
+//        rotation.start();
     }
 
     @Override

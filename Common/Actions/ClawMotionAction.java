@@ -15,13 +15,14 @@ public class ClawMotionAction extends BaseAction {
     }
     @Override
     public void start() {
-        if(open) {
+        if (open) {
+            robotModel.withCone = true;
             armComponent.rightClaw.setPosition(0);
-            armComponent.leftClaw.setPosition(0);
-            telemetry.addData("closing claw",true);
+            armComponent.leftClaw.setPosition(0.5);
         } else {
-            armComponent.rightClaw.setPosition(1);
-            armComponent.rightClaw.setPosition(1);
+            robotModel.withCone = false;
+            armComponent.rightClaw.setPosition(0.5);
+            armComponent.leftClaw.setPosition(0);
         }
 
     }

@@ -19,12 +19,12 @@ public class ManualArm {
     public void setCleshnja(boolean open) {
         if (open) {
             model.withCone = true;
-            armComponent.rightClaw.setPosition(1);
-            armComponent.leftClaw.setPosition(0);
+            armComponent.rightClaw.setPosition(0);
+            armComponent.leftClaw.setPosition(0.5);
         } else {
             model.withCone = false;
-            armComponent.rightClaw.setPosition(0);
-            armComponent.leftClaw.setPosition(1);
+            armComponent.rightClaw.setPosition(0.5);
+            armComponent.leftClaw.setPosition(0);
         }
     }
     public void liftArmToPosition(ArmPosition position) {

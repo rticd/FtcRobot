@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Common;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ConeDetectionUtil;
 import org.firstinspires.ftc.teamcode.Common.Components.ArmComponent;
 import org.firstinspires.ftc.teamcode.Common.Components.CameraComponent;
 import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
@@ -52,15 +53,15 @@ public class RobotModel {
         this.parkingCoordinates = parkingCoordinates;
     }
 
-    public RobotModel(HardwareMap hardwareMap) {
+    public RobotModel(HardwareMap hardwareMap, RobotTeamColor robotTeamColor, Coordinates initialCoordinates) {
         this.driveComponent = new DriveComponent(hardwareMap);
         this.armComponent = new ArmComponent(hardwareMap);
         this.sensorComponent = new SensorComponent(hardwareMap);
-        this.cameraComponent = new CameraComponent(hardwareMap,640,480);
+        this.cameraComponent = new CameraComponent(hardwareMap, robotTeamColor,640,480);
         this.robotHeight = 38.3;
         this.robotWidth = 33;
         this.armPosition = 0;
-        coordinates = new Coordinates(0,0);
+        coordinates = initialCoordinates;
         absAngle = 0;
     }
 }

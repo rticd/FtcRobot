@@ -8,8 +8,11 @@ import com.sun.tools.javac.file.RelativePath;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.IBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ParkingBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ScanBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.BlueConeDetectionUtil;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.RedConeDetectionUtil;
 import org.firstinspires.ftc.teamcode.Common.Coordinates;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
+import org.firstinspires.ftc.teamcode.Common.RobotTeamColor;
 
 public class AutonomousEntryPoint extends OpMode {
     RobotModel robotModel;
@@ -22,7 +25,8 @@ public class AutonomousEntryPoint extends OpMode {
 
     @Override
     public void init() {
-        robotModel = new RobotModel(hardwareMap);
+        robotModel = new RobotModel(hardwareMap, RobotTeamColor.Blue,
+                new Coordinates(0, 0));
         fieldModel = new FieldModel(new Coordinates(0, 0));
         dashboard = FtcDashboard.getInstance();
         robotModel.getCameraComponent().start();

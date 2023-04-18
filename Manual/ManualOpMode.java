@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Manual;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Common.RobotTeamColor;
 import org.firstinspires.ftc.teamcode.Common.RotationDirection;
 import org.firstinspires.ftc.teamcode.Common.Actions.VibrateAction;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
@@ -26,7 +27,7 @@ public class ManualOpMode extends LinearOpMode {
         }
     }
     void initialize() {
-        model = new RobotModel(hardwareMap);
+        model = new RobotModel(hardwareMap, RobotTeamColor.Blue, null);
         armController = new ManualArm(model);
         driveController = new ManualDrive(model, telemetry);
     }

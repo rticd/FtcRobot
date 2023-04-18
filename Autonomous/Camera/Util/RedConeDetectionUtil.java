@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Camera.Util;
 
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Pipeline;
-import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.core.Point;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
@@ -16,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class RedConeDetectionUtil {
+public class RedConeDetectionUtil implements ConeDetectionUtil {
 
-    private RedConeDetectionUtil() {
+    public RedConeDetectionUtil() {
 
     }
-    public static Mat extractColors(final Mat src) {
+    public Mat extractColors(final Mat src) {
         Mat hsv = new Mat();
         Imgproc.cvtColor(src, hsv, Imgproc.COLOR_BGR2HSV);
 
@@ -65,7 +64,7 @@ public class RedConeDetectionUtil {
 
         return bitmap;
     }
-    public static Mat processImage(final Mat mat) {
+    public Mat processImage(final Mat mat) {
         final Mat processed = new Mat(mat.height(), mat.width(), mat.type());
         // Blur an image using a Gaussian filter
         Imgproc.GaussianBlur(mat, processed, new Size(7, 7), 1);
@@ -98,7 +97,7 @@ public class RedConeDetectionUtil {
 
         return red > green && blue < red;
     }
-    private static RelativePosition getRelativePosition(Point center, Mat image){
+    public RelativePosition getRelativePosition(Point center, Mat image){
 
         Point imageCenter = new Point(image.cols() / 2, image.rows() / 2);
 
@@ -112,8 +111,8 @@ public class RedConeDetectionUtil {
     }
 
     //old variant which works
-    public static void markOuterContour(final Mat processedImage,
-                                        final Mat originalImage, State state) {
+    public void markOuterContour(final Mat processedImage,
+                                        final Mat originalImage) {
         // Find contours of an image
         final List<MatOfPoint> allContours = new ArrayList<>();
         Imgproc.findContours(
@@ -276,7 +275,7 @@ public class RedConeDetectionUtil {
 
 
      */
-    private static void displayCentre(Mat originalImage){
+        public void displayCentre(Mat originalImage){
         // Calculate the center of the input image
         int centerX = originalImage.cols() / 2;
         int centerY = originalImage.rows() / 2;

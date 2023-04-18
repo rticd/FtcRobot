@@ -5,6 +5,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Pipeline;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.BlueConeDetectionUtil;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ConeDetectionUtil;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.RedConeDetectionUtil;
+import org.firstinspires.ftc.teamcode.Common.RobotTeamColor;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -19,10 +23,14 @@ public class CameraComponent {
 
     int height;
     int width;
-    public CameraComponent(HardwareMap hardwareMap,int width,int height){
+    public CameraComponent(HardwareMap hardwareMap, RobotTeamColor color, int width, int height){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        this.pipeline = new Pipeline(webcam,Pipeline.dashboard);
+        if(color == RobotTeamColor.Blue)
+            this.pipeline = new Pipeline(webcam, Pipeline.dashboard, new BlueConeDetectionUtil());
+        else if(color == RobotTeamColor.Red)
+            this.pipeline = new Pipeline(webcam, Pipeline.dashboard, new RedConeDetectionUtil());
+
         webcam.setPipeline(this.pipeline);
         this.height = height;
         this.width = width;

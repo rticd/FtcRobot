@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Autonomous.Camera;
 import android.graphics.Bitmap;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.google.zxing.Result;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutonomousEntryPoint;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotateConeBehaviour;
@@ -11,12 +10,11 @@ import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotatePoleBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ScanBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToConeBehaviour;
 import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToPoleBehaviour;
-import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.BlueConeDetectionUtil;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ConeDetectionUtil;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ReadQRCode;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.RelativePosition;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.YellowPoleDetectionUtil;
-import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvPipeline;
@@ -26,7 +24,6 @@ public class Pipeline extends OpenCvPipeline {
     OpenCvWebcam webcam;
     boolean viewportPaused;
     public static FtcDashboard dashboard;
-    public Result result;
     public static String parkingPosition;
     public static double coneArea = 0;
     public static double poleArea = 0;
@@ -34,10 +31,13 @@ public class Pipeline extends OpenCvPipeline {
     public static RelativePosition polePosition;
     public static boolean coneSelected;
     public static boolean poleSelected;
-    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard, State state){
+
+    public static ConeDetectionUtil coneDetectionUtil;
+
+    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard, ConeDetectionUtil coneDetectionUtil){
         this.webcam = webcam;
         this.dashboard =dashboard;
-        //this.state = state;
+        this.coneDetectionUtil = coneDetectionUtil;
     }
     @Override
     public Mat processFrame(Mat input) {
@@ -55,11 +55,11 @@ public class Pipeline extends OpenCvPipeline {
             //потом, ты сможешь использовать их как угодно в своих классах.
 
          else if (AutonomousEntryPoint.currentBehaviour instanceof ToConeBehaviour || AutonomousEntryPoint.currentBehaviour instanceof RotateConeBehaviour) {
-            final Mat extractedColors = BlueConeDetectionUtil.extractColors(input);
+            final Mat extractedColors = coneDetectionUtil.extractColors(input);
             // Process frame
-            final Mat processed = BlueConeDetectionUtil.processImage(extractedColors);
+            final Mat processed = coneDetectionUtil.processImage(extractedColors);
             // Mark outer contour
-            BlueConeDetectionUtil.markOuterContour(processed, extractedColors);
+            coneDetectionUtil.markOuterContour(processed, extractedColors);
             Utils.matToBitmap(extractedColors, bitmap);
             input.release();
             extractedColors.copyTo(input);
