@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FieldModel {
 
-    public final double CM_PER_TILE = 61;
+    public static final double CM_PER_TILE = 61.5;
     double maxHeight;
     public double getMaxHeight() {
         return maxHeight;
@@ -35,7 +35,10 @@ public class FieldModel {
     public List<Coordinates> getHigherJunctions() {
         return higherJunctions;
     }
-
+    public Coordinates leftRedConePile;
+    public Coordinates rightRedConePile;
+    public Coordinates leftBlueConePile;
+    public  Coordinates rightBlueConePile;
     Coordinates initialPosition;
     public Coordinates getInitialPosition() {
         return initialPosition;
@@ -83,5 +86,11 @@ public class FieldModel {
         higherJunctions.add(new Coordinates(2, 3, CM_PER_TILE));
         higherJunctions.add(new Coordinates(3, 4, CM_PER_TILE));
         higherJunctions.add(new Coordinates(4, 3, CM_PER_TILE));
+
+        leftRedConePile =new Coordinates(0,2.5,CM_PER_TILE);
+        rightRedConePile =new Coordinates(6,2.5,CM_PER_TILE);
+        leftBlueConePile =new Coordinates(0,2.5,CM_PER_TILE);
+        rightBlueConePile =new Coordinates(6,2.5,CM_PER_TILE);
+
     }
 }

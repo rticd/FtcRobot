@@ -2,14 +2,12 @@ package org.firstinspires.ftc.teamcode.Manual;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.vuforia.Vuforia;
 
-import org.firstinspires.ftc.teamcode.Common.Actions.RotationDirection;
-import org.firstinspires.ftc.teamcode.Common.Actions.Turn;
-import org.firstinspires.ftc.teamcode.Common.Actions.VibrateController;
-import org.firstinspires.ftc.teamcode.Common.Coordinates;
+import org.firstinspires.ftc.teamcode.Common.RobotTeamColor;
+import org.firstinspires.ftc.teamcode.Common.RotationDirection;
+import org.firstinspires.ftc.teamcode.Common.Actions.VibrateAction;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
-import org.firstinspires.ftc.teamcode.Common.Component.ArmPosition;
+import org.firstinspires.ftc.teamcode.Common.Components.ArmPosition;
 
 @TeleOp
 public class ManualOpMode extends LinearOpMode {
@@ -29,7 +27,7 @@ public class ManualOpMode extends LinearOpMode {
         }
     }
     void initialize() {
-        model = new RobotModel(hardwareMap);
+        model = new RobotModel(hardwareMap, RobotTeamColor.Blue, null);
         armController = new ManualArm(model);
         driveController = new ManualDrive(model, telemetry);
     }
@@ -61,7 +59,7 @@ public class ManualOpMode extends LinearOpMode {
     void armControl() {
         telemetry.addData("Busy",liftActionOccurred);
 
-        VibrateController vibrateController = new VibrateController(model,telemetry);
+        VibrateAction vibrateController = new VibrateAction(model,telemetry);
         if (gamepad2.left_trigger > 0.1f){
             armController.controlLiftManually(-1);
             liftActionOccurred = true;
@@ -95,16 +93,17 @@ public class ManualOpMode extends LinearOpMode {
         }
 
         if(gamepad2.left_bumper) { //Тут ставишь куда ты хочешь жать для контроля клешни вместо true и false
-            armController.setCleshnja(true);
+            armController.setCleshnja(false);
 
         }else if(gamepad2.right_bumper) {
-            armController.setCleshnja(false);
+            armController.setCleshnja(true);
 
         }
         if (!liftActionOccurred){
             vibrateController.update();
-            if (vibrateController.vibrated){
+            if (model.vibrated){
                 gamepad2.rumble(500);
+                gamepad1.rumble(500);
             }
         }
     }

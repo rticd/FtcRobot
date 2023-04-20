@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode.Common.Actions;
-public interface Action {
+public interface IAction {
     void start();
     void update();
     boolean isFinished();

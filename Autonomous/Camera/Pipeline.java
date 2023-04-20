@@ -5,12 +5,17 @@ import android.graphics.Bitmap;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.google.zxing.Result;
 
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBlue;
-import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.BlueConeDetectionUtil;
+import org.firstinspires.ftc.teamcode.Autonomous.AutonomousEntryPoint;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotateConeBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.RotatePoleBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ScanBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToConeBehaviour;
+import org.firstinspires.ftc.teamcode.Autonomous.Behaviour.ToPoleBehaviour;
 
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ConeDetectionUtil;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.ReadQRCode;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.RelativePosition;
 import org.firstinspires.ftc.teamcode.Autonomous.Camera.Util.YellowPoleDetectionUtil;
-import org.firstinspires.ftc.teamcode.Autonomous.State;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.openftc.easyopencv.OpenCvPipeline;
@@ -18,58 +23,79 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 public class Pipeline extends OpenCvPipeline {
     OpenCvWebcam webcam;
-    boolean viewportPaused;
+    public static FtcDashboard dashboard;
+    public static String parkingPosition=null;
 
-    FtcDashboard dashboard;
-    public Result result;
-    public Pipeline(OpenCvWebcam webcam,FtcDashboard dashboard){
+    public static double coneArea = 0;
+    public static double poleArea = 0;
+    public static RelativePosition conePosition;
+    public static RelativePosition polePosition;
+    public static boolean coneSelected;
+    public static boolean poleSelected;
+
+    public static ConeDetectionUtil coneDetectionUtil;
+
+    public Pipeline(OpenCvWebcam webcam, ConeDetectionUtil coneDetectionUtil){
         this.webcam = webcam;
-        this.dashboard =dashboard;
+        this.dashboard =FtcDashboard.getInstance();
+        this.coneDetectionUtil = coneDetectionUtil;
     }
     @Override
     public Mat processFrame(Mat input) {
+        Result result;
         Bitmap bitmap = Bitmap.createBitmap(input.cols(), input.rows(), Bitmap.Config.ARGB_8888);
-        if (AutoBlue.currentAction == State.Scan) {
-            Utils.matToBitmap(input, bitmap);
-            if (ReadQRCode.readQRCode(bitmap)!=null){
-                AutoBlue.parkingPosition = ReadQRCode.readQRCode(bitmap).getText();
-            }
-        } else if (AutoBlue.currentAction == State.toCone || AutoBlue.currentAction==State.RotateCone) {
-            final Mat extractedColors = BlueConeDetectionUtil.extractColors(input);
-            // Process frame
-            final Mat processed = BlueConeDetectionUtil.processImage(extractedColors);
-            // Mark outer contour
-            BlueConeDetectionUtil.markOuterContour(processed, extractedColors);
-            Utils.matToBitmap(extractedColors, bitmap);
-            input.release();
-            extractedColors.copyTo(input);
-            extractedColors.release();
-            processed.release();
-        } else if(AutoBlue.currentAction == State.toPole|| AutoBlue.currentAction==State.RotatePole){
-            final Mat extractedColors = YellowPoleDetectionUtil.extractColors(input);
-            // Process frame
-            final Mat processed = YellowPoleDetectionUtil.processImage(extractedColors);
-            // Mark outer contour
-            YellowPoleDetectionUtil.markOuterContour(processed, extractedColors);
-            Utils.matToBitmap(extractedColors, bitmap);
-            input.release();
-            extractedColors.copyTo(input);
-            extractedColors.release();
-            processed.release();
-        }
+       if (AutonomousEntryPoint.currentBehaviour instanceof ScanBehaviour) {
+            Mat mat = ReadQRCode.process(input);
+            mat = ReadQRCode.enhanceSaturationAndContrast(mat);
+            dashboard.sendImage(ReadQRCode.matToBitmap(mat));
+            result = ReadQRCode.readQRCode(mat);
+            if (result!=null){
+                parkingPosition = result.getText();
 
-        dashboard.sendImage(bitmap);
+            }
+        } else if (AutonomousEntryPoint.currentBehaviour instanceof ToConeBehaviour || AutonomousEntryPoint.currentBehaviour instanceof RotateConeBehaviour) {
+            final Mat extractedColors = coneDetectionUtil.extractColors(input);
+            // Process frame
+            final Mat processed = coneDetectionUtil.processImage(extractedColors);
+            // Mark outer contour
+            coneDetectionUtil.markOuterContour(processed, extractedColors);
+            Utils.matToBitmap(extractedColors, bitmap);
+            dashboard.sendImage(bitmap);
+            input.release();
+            extractedColors.copyTo(input);
+            extractedColors.release();
+            processed.release();
+        } else if(AutonomousEntryPoint.currentBehaviour instanceof ToPoleBehaviour || AutonomousEntryPoint.currentBehaviour instanceof RotatePoleBehaviour) {
+            final Mat extractedColorsYellow = YellowPoleDetectionUtil.extractColors(input);
+            // Process frame
+            final Mat processedYellow = YellowPoleDetectionUtil.processImage(extractedColorsYellow);
+            // Mark outer contour
+            YellowPoleDetectionUtil.markOuterContour(processedYellow, extractedColorsYellow);
+            Utils.matToBitmap(extractedColorsYellow, bitmap);
+            dashboard.sendImage(bitmap);
+            input.release();
+            extractedColorsYellow.copyTo(input);
+            extractedColorsYellow.release();
+            processedYellow.release();
+        } else{
+           Utils.matToBitmap(input, bitmap);
+           dashboard.sendImage(bitmap);
+       }
+
+
         return input;
     }
 
 
     @Override
     public void onViewportTapped() {
+        this.webcam.pauseViewport();
+        /*
         viewportPaused = !viewportPaused;
         if (viewportPaused) {
             this.webcam.pauseViewport();
         } else {
             this.webcam.resumeViewport();
-        }
+        }*/
     }
 }

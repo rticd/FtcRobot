@@ -1,22 +1,22 @@
 package org.firstinspires.ftc.teamcode.Manual;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Common.Actions.Action;
-import org.firstinspires.ftc.teamcode.Common.Actions.RotationDirection;
-import org.firstinspires.ftc.teamcode.Common.Actions.Turn;
-import org.firstinspires.ftc.teamcode.Common.Component.DriveComponent;
+import org.firstinspires.ftc.teamcode.Common.Actions.IAction;
+import org.firstinspires.ftc.teamcode.Common.RotationDirection;
+import org.firstinspires.ftc.teamcode.Common.Actions.TurnAction;
+import org.firstinspires.ftc.teamcode.Common.Components.DriveComponent;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
-import org.firstinspires.ftc.teamcode.Common.Component.SensorComponent;
+import org.firstinspires.ftc.teamcode.Common.Components.SensorComponent;
 
 //Not going to update model, since it's only really needed for autonomous.
 public class ManualDrive {
     RobotModel model;
     DriveComponent driveComponent;
     SensorComponent sensorComponent;
-    Action rotationAction;
+    IAction rotationIAction;
     Telemetry telemetry;
 
-    Turn actionTurn;
+    TurnAction actionTurnAction;
     double x;
     public void setX(double x) {
         this.x = x;
@@ -49,17 +49,17 @@ public class ManualDrive {
 
 
     public void startTurning(double deltaAngle){
-        actionTurn = new Turn(model,deltaAngle,telemetry);
-        actionTurn.start();
+        actionTurnAction = new TurnAction(model,deltaAngle,telemetry);
+        actionTurnAction.start();
     }
     public RotationDirection continueTurning(){
-        actionTurn.update();
-        return actionTurn.rotationDirection;
+        actionTurnAction.update();
+        return actionTurnAction.rotationDirection;
     }
 
 
     public void update() {
-        if(rotationAction == null) {
+        if(rotationIAction == null) {
             //Movement
             double ulPower = y + x + turn;
             double llPower = y - x + turn;
@@ -72,9 +72,9 @@ public class ManualDrive {
             driveComponent.upperRight.setPower(urPower / denominator);
             driveComponent.lowerRight.setPower(lrPower / denominator);
         } else {
-            rotationAction.update();
-            if(rotationAction.isFinished())
-                rotationAction = null;
+            rotationIAction.update();
+            if(rotationIAction.isFinished())
+                rotationIAction = null;
         }
     }
 }

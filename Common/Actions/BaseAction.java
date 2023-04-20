@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.Common.Actions;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
 
-public abstract class BaseAction implements Action {
-    RobotModel model;
+public abstract class BaseAction implements IAction {
+    protected RobotModel robotModel;
     Telemetry telemetry;
-    public BaseAction(RobotModel model, Telemetry telemetry) {
-        this.model = model;
+    public BaseAction(RobotModel robotModel, Telemetry telemetry) {
+        this.robotModel = robotModel;
         this.telemetry = telemetry;
     }
     protected boolean finished;

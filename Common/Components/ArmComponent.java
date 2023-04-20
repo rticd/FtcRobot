@@ -1,6 +1,5 @@
-package org.firstinspires.ftc.teamcode.Common.Component;
+package org.firstinspires.ftc.teamcode.Common.Components;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -10,9 +9,9 @@ public class ArmComponent {
     public final double TICKS_PER_REVOLUTION = 1120;
     public final int ARM_TICKS_PER_CM = (int)(TICKS_PER_REVOLUTION/(ARM_WHEEL_DIAMETER * Math.PI));
     public final double GRAB_POSITION_CM = 0.1;
-    public final double PALKA_1_CM = 34.29;
-    public final double PALKA_2_CM = 58.42;
-    public final double PALKA_3_CM = 89;
+    public static final double PALKA_1_CM = 34.29;
+    public static final double PALKA_2_CM = 58.42;
+    public static final double PALKA_3_CM = 89;
 
     //Сюда вставить ограничение на подъём руки.
     public final double MAXIMUM_ARM_POSITION = 90;
@@ -27,7 +26,7 @@ public class ArmComponent {
         this.leftClaw = hardwareMap.get(Servo.class, "leftClaw");
 
         rightClaw.getController().pwmEnable();
-        rightClaw.setPosition(0);
+        rightClaw.setPosition(0.5);
         rightClaw.setDirection(Servo.Direction.FORWARD);
         leftClaw.getController().pwmEnable();
         leftClaw.setPosition(0);

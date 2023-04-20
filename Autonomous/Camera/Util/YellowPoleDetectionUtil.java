@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Camera.Util;
-import org.firstinspires.ftc.teamcode.Autonomous.AutoBlue;
-import org.firstinspires.ftc.teamcode.Autonomous.State;
+import org.firstinspires.ftc.teamcode.Autonomous.Camera.Pipeline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -23,10 +22,9 @@ public class YellowPoleDetectionUtil {
         Mat hsv = new Mat();
         Imgproc.cvtColor(src, hsv, Imgproc.COLOR_RGB2HSV);
 
-        //Scalar lowHSV = new Scalar(20, 70, 80); // lenient lower bound HSV for yellow
-        //Scalar highHSV = new Scalar(32, 255, 255);
-        Scalar lowHSV = new Scalar(0, 60, 80);
-        Scalar highHSV = new Scalar(25, 255, 255);
+        Scalar lowHSV = new Scalar(20, 70, 80); // lenient lower bound HSV for yellow
+        Scalar highHSV = new Scalar(32, 255, 255);
+
         Mat blueMask = new Mat();
         Core.inRange(hsv, lowHSV, highHSV, blueMask);
 
@@ -77,9 +75,11 @@ public class YellowPoleDetectionUtil {
                     return isNotNoise;
                 }).collect(Collectors.toList());
         if (filteredContours.isEmpty()){
-            AutoBlue.currentAction= State.RotatePole;
+//            AutoBlue.currentAction = State.RotatePole;
+              Pipeline.poleSelected = false;
         } else{
-            AutoBlue.currentAction=State.toPole;
+//            AutoBlue.currentAction = State.toPole;
+              Pipeline.poleSelected = true;
         }
         // Check if object inside contour is blue and draw contours
         for (MatOfPoint contour : filteredContours) {
@@ -112,8 +112,8 @@ public class YellowPoleDetectionUtil {
                     new Scalar(0, 255, 0),
                     1
             );
-            AutoBlue.polePosition= getRelativePosition(center, originalImage);
-            AutoBlue.poleArea = Imgproc.contourArea(contour);
+            Pipeline.polePosition= getRelativePosition(center, originalImage);
+            Pipeline.poleArea = Imgproc.contourArea(contour);
         }
 
         displayCentre(originalImage);

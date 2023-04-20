@@ -2,26 +2,30 @@ package org.firstinspires.ftc.teamcode.Common.Actions;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.RobotModel;
-import org.firstinspires.ftc.teamcode.Common.Component.ArmComponent;
+import org.firstinspires.ftc.teamcode.Common.Components.ArmComponent;
 
-public class ClawMotion extends BaseAction {
+public class ClawMotionAction extends BaseAction {
     ArmComponent armComponent;
-    public boolean open;
+    public boolean closed;
 
-    public ClawMotion(RobotModel model, boolean open, Telemetry telemetry)  {
-        super(model, telemetry);
-        this.armComponent = model.getArmComponent();
-        this.open = open;
+
+
+    public ClawMotionAction(RobotModel robotModel, boolean close, Telemetry telemetry)  {
+        super(robotModel, telemetry);
+        this.armComponent = robotModel.getArmComponent();
+        this.closed = close;
+        finished=true;
     }
     @Override
     public void start() {
-        if(open) {
+        if (closed) {
+            robotModel.withCone = true;
             armComponent.rightClaw.setPosition(0);
-            armComponent.leftClaw.setPosition(0);
-            telemetry.addData("closing claw",true);
+            armComponent.leftClaw.setPosition(0.7);
         } else {
-            armComponent.rightClaw.setPosition(1);
-            armComponent.rightClaw.setPosition(1);
+            robotModel.withCone = false;
+            armComponent.rightClaw.setPosition(0.7);
+            armComponent.leftClaw.setPosition(0);
         }
 
     }
